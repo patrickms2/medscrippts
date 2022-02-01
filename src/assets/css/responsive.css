@@ -1,0 +1,45 @@
+@media (max-width: 510px) {
+  .header-right .notification-box {
+    display: none;
+  }
+  .header-right .user-box .user-img {
+    display: none;
+  }
+}
+@media (max-width: 360px) {
+  .header-right .new-btn {
+    font-size: 15px;
+    width: 122px;
+    height: 48px;
+    margin-right: 10px;
+  }
+}
+@media (max-width: 767px) {
+  .btns-area .color-btn {
+    width: calc(50% - 5px);
+  }
+  .btns-area .color-btn.edit {
+    margin-right: 5px;
+  }
+  .btns-area .color-btn.delete {
+    margin-left: 5px;
+  }
+  .btns-area .single-btn.date,
+  .btns-area .single-btn.view{
+    width: calc(50% - 5px);
+  }
+  .btns-area .single-btn.view {
+    margin-right: 5px;
+  }
+  .btns-area .single-btn.date {
+    margin-left: 5px;
+  }
+}
+@media (max-width: 480px) {
+  .btns-area .single-btn span {
+    display: none;
+  }
+  .btns-area .single-btn {
+    font-size: 20px;
+  }
+}
