@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Accordion, Col, Container, Modal, Row } from "react-bootstrap";
-import { FaChevronDown, FaChevronRight, FaTimes } from "react-icons/fa";
+import { FaChevronDown, FaChevronRight, FaPlus, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 import axios from "axios";

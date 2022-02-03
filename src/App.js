@@ -25,10 +25,10 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />} >
         <Route index element={<PrivateRoute> <Dashboard /> </PrivateRoute>} />
-        <Route path="script" element={<Script />} />
-        <Route path="/view-script/:slug" element={<ViewScript />} />
-        <Route path="/edit-script/:slug" element={<EditScript />} />
-        <Route path="/compare-script/:slug/:keyword" element={<Compare />} />
+        <Route path="script" element={<PrivateRoute><Script /> </PrivateRoute>} />
+        <Route path="/view-script/:slug" element={<PrivateRoute><ViewScript /> </PrivateRoute>} />
+        <Route path="/edit-script/:slug" element={<PrivateRoute> <EditScript /> </PrivateRoute>} />
+        <Route path="/compare-script/:slug/:keyword" element={<PrivateRoute><Compare /> </PrivateRoute>} />
       </Route>
       <Route path="/signin" element={<Signin />} />
       <Route path="/signup" element={<Signup />} />

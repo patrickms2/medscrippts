@@ -1,6 +1,5 @@
 import axios from "axios";
 import { t } from "i18next";
-import Slider from "react-slick";
 import moment from "moment";
 import { useRef, useState } from "react";
 import { useEffect } from "react";
@@ -16,6 +15,9 @@ import { useCategoryContext } from "../context/CategoryContext";
 import NoDataFound from "./NoDataFound";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
+import { FaShareAlt } from "react-icons/fa";
+import ShareScript from "../components/Helper/ShareScript";
+import Highlighter from "react-highlight-words";
 function SampleNextArrow(props) {
   const { className, onClick } = props;
   return (
@@ -43,7 +45,11 @@ const Compare = () => {
   const params = useParams();
   const [deleteSlug, setDeleteSlug] = useState("")
   const navigate = useNavigate()
+  const [shareSlug, setShareSlug] = useState("");
+  const [shareModal, setShareModal] = useState(false);
 
+  const showShareModal = () => setShareModal(true)
+  const closeShareModal = () => setShareModal(false)
   const [deletShow, setDeletShow] = useState(false)
   const handleDeletClose = () => setDeletShow(false);
   const handleDeletShow = () => setDeletShow(true);
@@ -59,8 +65,10 @@ const Compare = () => {
   };
 
 
-  const handleClick = (e) => {
-    e.target.classList.toggle("blur")
+  const handleClick = (e, id) => {
+    if (localStorage.getItem(id)) {
+      e.target.classList.toggle("blur")
+    }
   }
 
   const handleDeleteScript = async (slug) => {
@@ -75,6 +83,7 @@ const Compare = () => {
   const getScript = async () => {
     try {
       const res = await axios.get(`${API}/compare/${params.slug}/${params.keyword}`)
+      console.log(res.data.data)
       setScripts(res.data.data)
       setIsLoading(false)
     } catch (err) {
@@ -112,33 +121,96 @@ const Compare = () => {
                 swiper.navigation.init()
                 swiper.navigation.update()
               })
-            }} modules={[Navigation]} loop={true} className="banner-slider">
-              {scripts.map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
+            }} modules={[Navigation]} className="banner-slider">
+              {scripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
                 <div className="scripts-details">
                   <Row className="align-items-center">
                     <Col md={8}>
                       <div className="details-left">
-                        <h2 className="title">{title}</h2>
+                        <h2 className="title">
+                          <Highlighter
+                            highlightClassName="highlight-text"
+                            searchWords={[params.keyword]}
+                            autoEscape={false}
+                            textToHighlight={title}
+                          />
+                        </h2>
                         <div className="details">
                           <div>
-                            <p className="text"><span className="strong">{t("path")}</span><span onClick={handleClick} className={`patho normal ${localStorage.getItem("patho") ? "blur" : ""}`}>{pathophysiology}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("path")}</span>
+                              <span onClick={(e) => handleClick(e, "patho")} className={`patho normal ${localStorage.getItem("patho") ? "blur" : ""}`}>
+                                <Highlighter
+                                  highlightClassName="highlight-text"
+                                  searchWords={[params.keyword]}
+                                  autoEscape={false}
+                                  textToHighlight={pathophysiology}
+                                />
+                              </span>
+                            </p>
                           </div>
                           <div>
-                            <p className="text"><span className="strong">{t("epi")}</span ><span onClick={handleClick} className={`epide normal ${localStorage.getItem("epide") ? "blur" : ""}`}>{epidemiology}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("epi")}</span >
+                              <span onClick={(e) => handleClick(e, "epide")} className={`epide normal ${localStorage.getItem("epide") ? "blur" : ""}`}>
+                                <Highlighter
+                                  highlightClassName="highlight-text"
+                                  searchWords={[params.keyword]}
+                                  autoEscape={false}
+                                  textToHighlight={epidemiology}
+                                />
+                              </span>
+                            </p>
                           </div>
                           <div>
-                            <p className="text"><span className="strong">{t("ss")}</span><span onClick={handleClick} className={`symp normal ${localStorage.getItem("symp") ? "blur" : ""}`}>{symptoms}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("ss")}</span>
+                              <span onClick={(e) => handleClick(e, "symp")} className={`symp normal ${localStorage.getItem("symp") ? "blur" : ""}`}>
+                                <Highlighter
+                                  highlightClassName="highlight-text"
+                                  searchWords={[params.keyword]}
+                                  autoEscape={false}
+                                  textToHighlight={symptoms}
+                                />
+                              </span>
+                            </p>
                           </div>
                           <div>
-                            <p className="text"><span className="strong">{t("dx")}</span><span onClick={handleClick} className={`diagn normal ${localStorage.getItem("diagn") ? "blur" : ""}`}>{diagnostics}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("dx")}</span>
+                              <span onClick={(e) => handleClick(e, "diagn")} className={`diagn normal ${localStorage.getItem("diagn") ? "blur" : ""}`}>
+                                <Highlighter
+                                  highlightClassName="highlight-text"
+                                  searchWords={[params.keyword]}
+                                  autoEscape={false}
+                                  textToHighlight={diagnostics}
+                                />
+                              </span>
+                            </p>
                           </div>
                           <div>
-                            <p className="text"><span className="strong">{t("tx")}</span><span onClick={handleClick} className={`treat normal ${localStorage.getItem("treat") ? "blur" : ""}`}>{treatments}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("tx")}</span>
+                              <span onClick={(e) => handleClick(e, "treat")} className={`treat normal ${localStorage.getItem("treat") ? "blur" : ""}`}>
+                                <Highlighter
+                                  highlightClassName="highlight-text"
+                                  searchWords={[params.keyword]}
+                                  autoEscape={false}
+                                  textToHighlight={treatments}
+                                />
+                              </span>
+                            </p>
                           </div>
                         </div>
                         <div className="details-links">
                           <h3 className="title">{t("links")}</h3>
                           <input type="text" defaultValue={useful_links[0].link} />
+                        </div>
+                        <div className="share">
+                          <FaShareAlt onClick={() => {
+                            showShareModal()
+                            setShareSlug(slug)
+                          }} />
                         </div>
                       </div>
                     </Col>
@@ -186,6 +258,8 @@ const Compare = () => {
           }}>{t("yes")}</Button>
         </Modal.Body>
       </Modal>
+      <ShareScript shareModal={shareModal} closeShareModal={closeShareModal} shareSlug={shareSlug} />
+
     </>
   )
 }

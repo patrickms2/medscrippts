@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
 import Select from 'react-select'
@@ -10,7 +10,6 @@ import axios from 'axios';
 
 import logo from '../../assets/images/logo-small.png';
 import logoutIcon from '../../assets/images/icons/logout.svg';
-import category from '../../assets/images/icons/category.svg';
 import pred from '../../assets/images/icons/pred.png';
 import study from '../../assets/images/icons/study.svg';
 import { useAuthContext } from '../../context/AuthContext';
@@ -19,11 +18,14 @@ import { handleDiagnosis, handleEpidemiology, handlePathophysiology, handleSympt
 import ModalLoader from './ModalLoader';
 
 const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
+  const [isPedi, setisPedi] = useState(false);
+  const [isAdult, setIsAdult] = useState(false);
+  // const [filterdScripts, setFilterdScripts] = useState([]);
+  const { categories, scripts, setFilterdScripts } = useCategoryContext()
   const { API } = useAuthContext()
   const [isLoading, setIsLoading] = useState(false);
   const [scriptByCategory, setScriptByCategory] = useState("");
   const [showScriptSidebar, setShowScriptSidebar] = useState(false);
-  const { categories } = useCategoryContext()
   const { t } = useTranslation()
   const { register, handleSubmit, reset } = useForm();
   const [selectedOption, setSelectedOption] = useState('family-medicine');
@@ -113,7 +115,30 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
     setSelectedOption(data.value)
     getScriptByCategory(data.value)
   }
+  const handlePedi = (e) => {
+    setisPedi(e.target.checked)
+  }
+  const handleAdult = (e) => {
+    setIsAdult(e.target.checked)
+  }
+  useEffect(() => {
+    if (isPedi && !isAdult) {
+      const pedScripts = scripts.filter(item => Number(item.isPediatrics))
+      setFilterdScripts(pedScripts)
+    } else if (isAdult && !isPedi) {
+      const adultScripts = scripts.filter(item => Number(item.isAdult))
+      setFilterdScripts(adultScripts)
+    } else if (isAdult && isPedi) {
+      const newScripts = scripts.filter(item => Number(item.isAdult) || Number(item.isPediatrics))
+      setFilterdScripts(newScripts)
+    } else {
+      setFilterdScripts([])
+    }
 
+
+  }, [isPedi, isAdult]);
+
+  // console.log(filterdScripts)
   const options = categories.map(({ name, slug }) => { return { value: slug, label: name } })
   return (
     <>
@@ -159,14 +184,14 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
               <input className="form-check-input blur-input" type="checkbox" role="switch" id="treat" onChange={handleTreatments} defaultChecked={localStorage.getItem("treat") ? true : false} />
             </div>
 
-            <button className='btns'><img src={pred} alt="category" />{t('pediatrics')}</button>
+            <button className='btns'><img src={pred} alt="category" />{t('filter')}</button>
             <div className="form-switch ps-0 blure-switch">
-              <label className="form-check-label" htmlFor="ped">{t("pediatrics_scrippts")}</label>
-              <input className="form-check-input" type="checkbox" role="switch" id="ped" />
+              <label className="form-check-label" htmlFor="pedi">{t("pediatrics_scrippts")}</label>
+              <input className="form-check-input" type="checkbox" role="switch" id="pedi" onChange={handlePedi} />
             </div>
             <div className="form-switch ps-0 blure-switch">
               <label className="form-check-label" htmlFor="adult">{t("adult_scrippts")}</label>
-              <input className="form-check-input" type="checkbox" role="switch" id="adult" />
+              <input className="form-check-input" type="checkbox" role="switch" id="adult" onChange={handleAdult} />
             </div>
           </div>
         </div>

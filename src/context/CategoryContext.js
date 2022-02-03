@@ -8,6 +8,7 @@ const CategoryProvider = ({ children }) => {
   const { API } = useAuthContext()
   const [categories, setCategories] = useState([])
   const [scripts, setScripts] = useState("")
+  const [filterdScripts, setFilterdScripts] = useState([]);
 
   const addScript = async (data) => {
     try {
@@ -37,9 +38,9 @@ const CategoryProvider = ({ children }) => {
     axios.get(`${API}/user-scripts`)
       .then(res => setScripts(res.data.data))
   }
-  const getAllCategories = () => {
-    axios.get(`${API}/all-categories`)
-      .then(res => setCategories(res.data.data))
+  const getAllCategories = async () => {
+    const res = await axios.get(`${API}/all-categories`)
+    setCategories(res.data.data)
   }
 
   const value = {
@@ -50,6 +51,8 @@ const CategoryProvider = ({ children }) => {
     scripts,
     getAllScripts,
     getAllCategories,
+    filterdScripts,
+    setFilterdScripts
   };
   return (
     <CategoryContext.Provider value={value}>

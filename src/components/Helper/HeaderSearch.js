@@ -29,11 +29,12 @@ const HeaderSearch = () => {
   useEffect(() => {
     getAllScripts()
   }, [])
+
   return <div className="header-search position-relative">
     <div className="serch-box position-relative">
       <input onChange={handleFilter} value={wordInter} type="text" placeholder={t("search_scrippts")} autoComplete="off" />
       <button>
-        {filterdata.length === 0 ? <img src={search} alt="search" /> : <FaTimes onClick={clearInput} />}
+        {wordInter ? <FaTimes onClick={clearInput} /> : <img src={search} alt="search" />}
         {/* <img src={search} alt="search" /> */}
       </button>
     </div>

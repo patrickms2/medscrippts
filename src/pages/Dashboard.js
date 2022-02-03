@@ -16,6 +16,7 @@ import { useAuthContext } from "../context/AuthContext";
 import NoDataFound from "./NoDataFound";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
+import ShareScript from "../components/Helper/ShareScript";
 function SampleNextArrow(props) {
   const { className, onClick } = props;
   return (
@@ -35,13 +36,11 @@ function SamplePrevArrow(props) {
 const Dashboard = () => {
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
-  const { API } = useAuthContext()
-  const { register, handleSubmit, reset } = useForm();
   const { t } = useTranslation()
   let navigate = useNavigate();
   const [deleteSlug, setDeleteSlug] = useState("")
   const [shareSlug, setShareSlug] = useState("");
-  const { deleteScript, scripts, getAllScripts } = useCategoryContext()
+  const { deleteScript, scripts, getAllScripts, filterdScripts } = useCategoryContext()
   const [shareModal, setShareModal] = useState(false);
 
   const showShareModal = () => setShareModal(true)
@@ -75,24 +74,14 @@ const Dashboard = () => {
       e.target.classList.toggle("blur")
     }
   }
-  const onSubmit = async (data) => {
-    console.log(data)
-    try {
-      const res = await axios.post(`${API}/share-script/${shareSlug}`, data)
-      closeShareModal()
-      swal(res.data.message, "", "success");
-    } catch (err) {
-      closeShareModal()
-      swal(err.response.data.message, "", "error");
-    }
 
-  }
   if (!scripts) {
     return <Loader />
   }
   if (scripts.length == 0) {
     return <NoDataFound />
   }
+  console.log(filterdScripts.length)
 
   return (
     <>
@@ -115,7 +104,7 @@ const Dashboard = () => {
                 swiper.navigation.update()
               })
             }} modules={[Navigation]} loop={true} className="banner-slider" >
-              {scripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
+              {filterdScripts.length == 0 ? scripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
                 <div className="scripts-details">
                   <Row className="align-items-center">
                     <Col md={8}>
@@ -129,13 +118,86 @@ const Dashboard = () => {
                             <p className="text"><span className="strong">{t("epi")}</span ><span onClick={(e) => handleClick(e, "epide")} className={`epide normal ${localStorage.getItem("epide") ? "blur" : ""}`}>{epidemiology}</span> </p>
                           </div>
                           <div>
-                            <p className="text"><span className="strong">{t("ss")}</span><span onClick={(e) => handleClick(e, "symp")} className={`symp normal ${localStorage.getItem("symp") ? "blur" : ""}`}>{symptoms}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("ss")}</span>
+                              <span onClick={(e) => handleClick(e, "symp")} className={`symp normal ${localStorage.getItem("symp") ? "blur" : ""}`}>{symptoms}</span>
+                            </p>
                           </div>
                           <div>
-                            <p className="text"><span className="strong">{t("dx")}</span><span onClick={(e) => handleClick(e, "diagn")} className={`diagn normal ${localStorage.getItem("diagn") ? "blur" : ""}`}>{diagnostics}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("dx")}</span>
+                              <span onClick={(e) => handleClick(e, "diagn")} className={`diagn normal ${localStorage.getItem("diagn") ? "blur" : ""}`}>{diagnostics}</span>
+                            </p>
                           </div>
                           <div>
-                            <p className="text"><span className="strong">{t("tx")}</span><span onClick={(e) => handleClick(e, "treat")} className={`treat normal ${localStorage.getItem("treat") ? "blur" : ""}`}>{treatments}</span> </p>
+                            <p className="text">
+                              <span className="strong">{t("tx")}</span>
+                              <span onClick={(e) => handleClick(e, "treat")} className={`treat normal ${localStorage.getItem("treat") ? "blur" : ""}`}>{treatments}</span> </p>
+                          </div>
+                        </div>
+                        <div className="details-links">
+                          <h3 className="title">{t("links")}</h3>
+                          <input type="text" defaultValue={useful_links[0].link} />
+                        </div>
+                        <div className="share">
+                          <FaShareAlt onClick={() => {
+                            showShareModal()
+                            setShareSlug(slug)
+                          }} />
+                        </div>
+                      </div>
+                    </Col>
+                    <Col md={4}>
+                      <ScriptImages images={images} />
+                    </Col>
+                  </Row>
+                </div>
+                <div className="btns-area">
+                  <Row>
+                    <Col md={7} className="mb-4 mb-md-0">
+                      <button className="single-btn view">{views} <span>{t("view")}</span></button>
+                      <button className="single-btn date">{moment.unix(created_at).format("DD-MM-Y")} <span>{t("last_updated")}</span></button>
+                    </Col>
+                    <Col md={5}>
+                      <div className="text-end">
+                        <button onClick={() => navigate(`/edit-script/${slug}`)} className="color-btn edit">{t("edit")}</button>
+                        <button onClick={() => {
+                          handleDeletShow()
+                          setDeleteSlug(slug)
+                        }} className="color-btn delete">{t("delete")}</button>
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              </SwiperSlide>)) : filterdScripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
+                <div className="scripts-details">
+                  <Row className="align-items-center">
+                    <Col md={8}>
+                      <div className="details-left">
+                        <h2 className="title">{title}</h2>
+                        <div className="details">
+                          <div>
+                            <p className="text"><span className="strong">{t("path")}</span><span onClick={(e) => handleClick(e, "patho")} className={`patho normal ${localStorage.getItem("patho") ? "blur" : ""}`}>{pathophysiology}</span> </p>
+                          </div>
+                          <div>
+                            <p className="text"><span className="strong">{t("epi")}</span ><span onClick={(e) => handleClick(e, "epide")} className={`epide normal ${localStorage.getItem("epide") ? "blur" : ""}`}>{epidemiology}</span> </p>
+                          </div>
+                          <div>
+                            <p className="text">
+                              <span className="strong">{t("ss")}</span>
+                              <span onClick={(e) => handleClick(e, "symp")} className={`symp normal ${localStorage.getItem("symp") ? "blur" : ""}`}>{symptoms}</span>
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text">
+                              <span className="strong">{t("dx")}</span>
+                              <span onClick={(e) => handleClick(e, "diagn")} className={`diagn normal ${localStorage.getItem("diagn") ? "blur" : ""}`}>{diagnostics}</span>
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text">
+                              <span className="strong">{t("tx")}</span>
+                              <span onClick={(e) => handleClick(e, "treat")} className={`treat normal ${localStorage.getItem("treat") ? "blur" : ""}`}>{treatments}</span> </p>
                           </div>
                         </div>
                         <div className="details-links">
@@ -195,24 +257,8 @@ const Dashboard = () => {
           }}>{t("yes")}</Button>
         </Modal.Body>
       </Modal>
+      <ShareScript shareModal={shareModal} closeShareModal={closeShareModal} shareSlug={shareSlug} />
 
-      <Modal className="password-modal" centered show={shareModal} onHide={closeShareModal}>
-        <Modal.Body>
-          <h4>{t("share_script_dialog_text")}</h4>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-3">
-              <label className="account-label" htmlFor="email">{t("email_address")}</label>
-              <input className="acount-input" type="email" id="email" required {...register("email")} />
-            </div>
-            <div className="mt-4 mb-2">
-              <button className="change-password">{t("continue")}</button>
-            </div>
-          </form>
-        </Modal.Body>
-        <div className="cross-icon" onClick={closeShareModal}>
-          <FaTimes />
-        </div>
-      </Modal>
 
     </>
   )

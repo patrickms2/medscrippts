@@ -4,11 +4,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import { FaShareAlt } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import Loader from "../components/Common/Loader";
 
 import ScriptImages from "../components/Dashboard/ScriptImages";
+import ShareScript from "../components/Helper/ShareScript";
 import { useAuthContext } from "../context/AuthContext";
 import { useCategoryContext } from "../context/CategoryContext";
 import Error from "./Error";
@@ -25,6 +27,11 @@ const ViewScript = () => {
   const [deletShow, setDeletShow] = useState(false)
   const handleDeletClose = () => setDeletShow(false);
   const handleDeletShow = () => setDeletShow(true);
+  const [shareSlug, setShareSlug] = useState("");
+  const [shareModal, setShareModal] = useState(false);
+
+  const showShareModal = () => setShareModal(true)
+  const closeShareModal = () => setShareModal(false)
 
   const handleDeleteScript = async () => {
 
@@ -92,6 +99,12 @@ const ViewScript = () => {
                       <h3 className="title">{t("links")}</h3>
                       <input type="text" defaultValue={useful_links[0]?.link} disabled />
                     </div>
+                    <div className="share">
+                      <FaShareAlt onClick={() => {
+                        showShareModal()
+                        setShareSlug(slug)
+                      }} />
+                    </div>
                   </div>
                 </Col>
                 <Col md={4}>
@@ -128,6 +141,7 @@ const ViewScript = () => {
           }}>{t("yes")}</Button>
         </Modal.Body>
       </Modal>
+      <ShareScript shareModal={shareModal} closeShareModal={closeShareModal} shareSlug={shareSlug} />
     </>
   )
 }

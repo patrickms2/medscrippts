@@ -1642,3 +1642,6 @@ button,input {
   background-color: #FE862D;
   color: var(--white);
 }
+.highlight-text {
+ background-color: #FFD63F;
+}
