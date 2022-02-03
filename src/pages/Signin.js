@@ -81,11 +81,13 @@ const Signin = () => {
                 <input type="checkbox" className="form-check-input" id="exampleCheck1" />
                 <label className="form-check-label" htmlFor="exampleCheck1">{t("remember_me")}</label>
               </div>
-              <p className='forgot-password' onClick={() => navigate("/forgot-password")}>{t("forgot_password")}</p>
+              {/* <p className='forgot-password' onClick={() => navigate("/forgot-password")}>{t("forgot_password")}</p> */}
+              <p className='forgot-password' onClick={() => navigate("/magic-login")}>magic login</p>
             </div>
             <button type="submit" className="login-btn">{t("sign_in")}</button>
           </form>
           <p className='text-center my-3'>{t("or")}</p>
+
           <GoogleLogin buttonText={t("continue_with_google")} onSuccess={handleSucess}
             onFailure={handleFailure} clientId='58215232229-oaafjpa99pb6n23n7t7v7cdbom7enh0s.apps.googleusercontent.com' className='continue-google' />
           <p className='text-center mt-3 account'>{t("dont_you_have_account")}

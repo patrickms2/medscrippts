@@ -37,9 +37,9 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
     const res = await logout()
     if (res.success) {
       swal(res.message, "", "success");
-      navigate("/signin")
+      navigate("/magic-login")
     } else {
-      navigate("/signin")
+      navigate("/magic-login")
     }
   }
   const handleAllBlur = () => {

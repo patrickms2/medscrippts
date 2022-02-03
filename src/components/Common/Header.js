@@ -23,6 +23,7 @@ import Notifications from "../Helper/Notifications";
 import HeaderSearch from "../Helper/HeaderSearch";
 import inviteIcon from '../../assets/images/icons/invite.png';
 import ReferFriends from "../Helper/ReferFriends";
+import bookIcon from '../../assets/images/icons/book.png';
 
 const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const { t } = useTranslation()
@@ -71,9 +72,9 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     const res = await logout()
     if (res.success) {
       swal(res.message, "", "success");
-      navigate("/signin")
+      navigate("/magic-login")
     } else {
-      navigate("/signin")
+      navigate("/magic-login")
     }
   }
 
@@ -88,15 +89,15 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     settingsClose()
     window.location.reload(false);
   }
-  // const syncPreScripts = () => {
-  //   axios.get(`${API}/sync-data/${authUser.id}`)
-  //     .then(res => {
-  //       if (res.data.success) {
-  //         settingsClose()
-  //         window.location.reload(false);
-  //       }
-  //     })
-  // }
+  const syncPreScripts = () => {
+    axios.get(`${API}/sync-data/${authUser.id}`)
+      .then(res => {
+        if (res.data.success) {
+          settingsClose()
+          window.location.reload(false);
+        }
+      })
+  }
   const getRemainingDays = async () => {
     const res = await axios.get(`${API}/remaining-days`)
     const days = res.data.data.remain_days
@@ -257,7 +258,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
               {languages.map(({ name, prefix }, i) => <option key={i} value={prefix}>{name}</option>)}
             </select>
           </div>
-          {/* <div className="setting">
+          <div className="setting">
             <div className="left">
               <img src={bookIcon} alt="langauge" />
               <span>{t("sync_premade_scripts!")}</span>
@@ -265,7 +266,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
             <span className="icon" onClick={syncPreScripts}>
               <FaPlus />
             </span>
-          </div> */}
+          </div>
         </Modal.Body>
         <div className="cross-icon" onClick={settingsClose}>
           <FaTimes />

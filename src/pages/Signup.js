@@ -98,7 +98,7 @@ const Signup = () => {
               </div>
               <button type="submit" className="login-btn">{t("signup")}</button>
             </form>
-            <p className='text-center mt-3 account'>{t("have_an_account?")} <span onClick={() => navigate('/signin')}> {t("sign_in")}</span> </p>
+            <p className='text-center mt-3 account'>{t("have_an_account?")} <span onClick={() => navigate('/magic-login')}> {t("sign_in")}</span> </p>
             <p className='text-center how-to' onClick={() => setOpen(true)}> {t("how_to")}</p>
           </div>
         </div>

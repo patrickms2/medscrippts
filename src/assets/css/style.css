@@ -112,7 +112,6 @@ button,input {
   height: 52px;
   background: #FE862D;
   color: var(--white);
-  box-shadow: 0px 7px 40px rgba(254, 134, 45, 0.26);
   border-radius: 12px;
 }
 .continue-google {

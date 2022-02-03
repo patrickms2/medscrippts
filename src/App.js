@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import EditScript from "./pages/EditScript";
 import Error from "./pages/Error";
 import ForgotPassword from "./pages/ForgotPassword";
+import MagicLogin from "./pages/MagicLogin";
 import ResetPassword from "./pages/ResetPassword";
 import Script from "./pages/Script";
 import Signin from "./pages/Signin";
@@ -30,10 +31,11 @@ function App() {
         <Route path="/edit-script/:slug" element={<PrivateRoute> <EditScript /> </PrivateRoute>} />
         <Route path="/compare-script/:slug/:keyword" element={<PrivateRoute><Compare /> </PrivateRoute>} />
       </Route>
-      <Route path="/signin" element={<Signin />} />
+      {/* <Route path="/signin" element={<Signin />} /> */}
       <Route path="/signup" element={<Signup />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/magic-login" element={<MagicLogin />} />
       <Route path="*" element={<Error />} />
     </Routes>
   );

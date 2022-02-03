@@ -5,12 +5,14 @@ import swal from 'sweetalert';
 
 import logo from '../assets/images/logo.png';
 import { useAuthContext } from "../context/AuthContext";
+
 const ForgotPassword = () => {
   const { forgotPassword } = useAuthContext()
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = async (data) => {
+
     const res = await forgotPassword(data)
     if (res.success) {
       swal(`${res.message} check your Email`, "", "success");
