@@ -33,12 +33,12 @@ const Signup = () => {
       setUserId(res.data.id)
       handleShow()
     } else {
-      swal(res.message, "", "error");
+      swal(res.errors[Object.keys(res.errors)[0]][0], "", "error");
     }
   };
   const syncPreScripts = () => {
     axios.get(`${API}/sync-data/${userId}`)
-    navigate("/signin")
+    navigate("/magic-login")
   }
   const handlePassword = (e) => {
     setShowPassword(!showPassword)

@@ -10,8 +10,7 @@ import { useAuthContext } from "../../context/AuthContext";
 import packegIcon from '../../assets/images/icons/packeg.png';
 import PaymentForm from "./PaymentForm";
 
-const stripePromise = loadStripe('pk_test_51IkVYcHdZxBbG9oi0vltSm75Gd1Sb7MSD0MGGQzz2u2c1Zma6WCxxqi0gTXAM7xgmdZZIVeB1cXkgmYAmRpusWPg003YEtwhB3');
-
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 const Membership = ({ showMembership, membershipClose, remainingDays }) => {
   const { API } = useAuthContext();
   const [selectedPackage, setSelectedPackage] = useState({})

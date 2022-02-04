@@ -18,7 +18,7 @@ const MagicLogin = () => {
   const onSubmit = async (data) => {
 
     try {
-      const did = await new Magic('pk_live_E977C5D50C3F568E')
+      const did = await new Magic(process.env.REACT_APP_MAGIC_KEY)
         .auth.loginWithMagicLink(data)
 
       const res = await axios.post(`${API}/auth/magic-link`, { bearerToken: did, email: data.email })
