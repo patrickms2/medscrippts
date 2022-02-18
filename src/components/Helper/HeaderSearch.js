@@ -1,12 +1,13 @@
-import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaTimes } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
 
 import { useCategoryContext } from '../../context/CategoryContext';
 import search from '../../assets/images/search.png';
-import { FaTimes } from 'react-icons/fa';
 
 const HeaderSearch = () => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   const { scripts, getAllScripts } = useCategoryContext()
   const [filterdata, setFilterdata] = useState([]);

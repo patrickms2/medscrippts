@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import { FaMinus, FaPlus, FaTimes } from "react-icons/fa";
+
 import { useCategoryContext } from "../context/CategoryContext";
 import { useAuthContext } from "../context/AuthContext";
 import { useTranslation } from "react-i18next";
@@ -70,6 +71,8 @@ const EditScript = () => {
 
   const onSubmit = async (data) => {
     const propertyValues = Object.values(links);
+    const isPediatrics = data.isPediatrics ? 1 : 0
+    const isAdult = data.isAdult ? 1 : 0
     const formData = new FormData()
     if (isSelected) {
       for (let i = 0; i < isSelected.length; i++) {
@@ -87,6 +90,8 @@ const EditScript = () => {
     formData.append("symptoms", data.symptoms)
     formData.append("treatments", data.treatments)
     formData.append("epidemiology", data.epidemiology)
+    formData.append("isPediatrics", isPediatrics)
+    formData.append("isAdult", isAdult)
 
     const res = await editScript(formData, params.slug)
     if (res.success) {
@@ -149,7 +154,7 @@ const EditScript = () => {
   if (isError) {
     return <Error height={true} />
   }
-  const { title, pathophysiology, symptoms, diagnostics, epidemiology, treatments, category_id } = script
+  const { title, pathophysiology, symptoms, diagnostics, epidemiology, treatments, category_id, isPediatrics, isAdult } = script
   return (
     <>
       <Container fluid>
@@ -182,11 +187,21 @@ const EditScript = () => {
               </div>
             </Col>
             <Col md={6}>
-              <label className="script-label" htmlFor="title">{t("category")}</label>
+              <label className="script-label">{t("category")}</label>
               <select className="script-select" {...register("category_id")} defaultValue={category_id} required>
                 <option value="">{t("select_categories")}</option>
                 {categories.map(({ id, name }) => (<option key={id} value={id}>{name}</option>))}
               </select>
+
+              <label className="script-label">Select type</label>
+              <div className="form-check form-check-inline type-check">
+                <input className="form-check-input" type="checkbox" id="pedi-check" defaultChecked={isPediatrics == 1 ? true : false} value={true} {...register('isPediatrics')} />
+                <label className="form-check-label" htmlFor="pedi-check"> Pediatrics</label>
+              </div>
+              <div className="form-check form-check-inline type-check">
+                <input className="form-check-input" type="checkbox" id="adult-check" defaultChecked={isAdult == 1 ? true : false} value={true} {...register('isAdult')} />
+                <label className="form-check-label" htmlFor="adult-check"> Adult</label>
+              </div>
 
               <label className="script-label" htmlFor="useful_link1">{t("useful_links")}</label>
               {[...Array(count).keys()].map((item) => {

@@ -15,7 +15,6 @@ import lanIcon from '../../assets/images/icons/lan.png';
 import memberIcon from '../../assets/images/icons/member.png';
 import termsIcon from '../../assets/images/icons/terms.png';
 import menuIcon from '../../assets/images/icons/humburger.svg';
-import ChangePassword from "../Helper/ChangePassword";
 import ChangeAccount from "../Helper/ChangeAccount";
 import { useAuthContext } from "../../context/AuthContext";
 import Membership from "../Helper/Membership";
@@ -72,9 +71,9 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     const res = await logout()
     if (res.success) {
       swal(res.message, "", "success");
-      navigate("/magic-login")
+      navigate("/signin")
     } else {
-      navigate("/magic-login")
+      navigate("/signin")
     }
   }
 
@@ -272,7 +271,6 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
           <FaTimes />
         </div>
       </Modal>
-      <ChangePassword showPassword={showPassword} passwordClose={passwordClose} />
       <Modal show={showTerms} onHide={termsClose} centered className="terms-modal">
         <Modal.Body>
           <h5>{t("about_us")}</h5>
@@ -286,14 +284,12 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
         </div>
       </Modal>
       <Modal show={showHelps} onHide={helpsClose} centered className="helps-modal">
-
         <Modal.Body>
           <div>
             <h5 className="title">{t("about_us")}</h5>
             <p className="text">{t("about_text2")}  </p>
             <h5 className="title ">{t("faq_title")}</h5>
           </div>
-
           <Accordion defaultActiveKey="0">
             <Accordion.Item eventKey="0">
               <Accordion.Header>{t("question1")}</Accordion.Header>
@@ -352,7 +348,9 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
         </div>
       </Modal>
 
-      <ReferFriends inviteModal={inviteModal} closeInviteModal={closeInviteModal} />
+      <ReferFriends inviteModal={inviteModal} closeInviteModal={closeInviteModal} membershipShow={membershipShow} />
+
+      {/* <ChangePassword showPassword={showPassword} passwordClose={passwordClose} /> */}
     </>
   )
 }

@@ -1,22 +1,20 @@
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import React, { useState, useEffect, useRef } from "react";
-import Slider from "react-slick";
-import axios from "axios";
+import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import swal from "sweetalert";
-import { useCategoryContext } from "../context/CategoryContext";
-import ScriptImages from "../components/Dashboard/ScriptImages";
 import { useTranslation } from "react-i18next";
-import Loader from "../components/Common/Loader";
-import { FaShareAlt, FaTimes } from "react-icons/fa";
-import { useForm } from "react-hook-form";
-import { useAuthContext } from "../context/AuthContext";
-import NoDataFound from "./NoDataFound";
+import { FaShareAlt } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
+
+import { useCategoryContext } from "../context/CategoryContext";
+import ScriptImages from "../components/Dashboard/ScriptImages";
+import Loader from "../components/Common/Loader";
+import NoDataFound from "./NoDataFound";
 import ShareScript from "../components/Helper/ShareScript";
+
 function SampleNextArrow(props) {
   const { className, onClick } = props;
   return (
@@ -81,7 +79,6 @@ const Dashboard = () => {
   if (scripts.length == 0) {
     return <NoDataFound />
   }
-  console.log(filterdScripts.length)
 
   return (
     <>

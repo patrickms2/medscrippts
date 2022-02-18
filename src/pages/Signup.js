@@ -38,7 +38,7 @@ const Signup = () => {
   };
   const syncPreScripts = () => {
     axios.get(`${API}/sync-data/${userId}`)
-    navigate("/magic-login")
+    navigate("/signin")
   }
   const handlePassword = (e) => {
     setShowPassword(!showPassword)
@@ -46,20 +46,6 @@ const Signup = () => {
   const handleConPassword = (e) => {
     setShowConPassword(!showConPassword)
   }
-  useEffect(() => {
-    if (showPassword) {
-      document.getElementById('password').type = "text";
-    } else {
-      document.getElementById('password').type = "password";
-    }
-  }, [showPassword])
-  useEffect(() => {
-    if (showConPassword) {
-      document.getElementById('password_confirm').type = "text";
-    } else {
-      document.getElementById('password_confirm').type = "password";
-    }
-  }, [showConPassword])
   return (
     <>
       <div className="signin-area">
@@ -74,31 +60,13 @@ const Signup = () => {
                 <label htmlFor="name" className="form-label">{t("name")}</label>
                 <input type="text" className="form-control" id="name" {...register("name")} required />
               </div>
-              <div className="mb-3">
+              <div className="mb-5">
                 <label htmlFor="email" className="form-label">{t("email_address")}</label>
                 <input type="email" className="form-control" id="email" required {...register("email")} />
               </div>
-              <div className="mb-3">
-                <label htmlFor="password" className="form-label">{t("password")}</label>
-                <div className="position-relative">
-                  <input type="password" className="form-control" id="password" required {...register("password")} />
-                  <span onClick={handlePassword}>
-                    {showPassword ? <FaEye className="icon" /> : <FaEyeSlash className="icon" />}
-                  </span>
-                </div>
-              </div>
-              <div className="mb-5">
-                <label htmlFor="password_confirm" className="form-label">{t("confirm_password")}</label>
-                <div className="position-relative">
-                  <input type="password" className="form-control" id="password_confirm" required {...register("password_confirm")} />
-                  <span onClick={handleConPassword}>
-                    {showConPassword ? <FaEye className="icon" /> : <FaEyeSlash className="icon" />}
-                  </span>
-                </div>
-              </div>
               <button type="submit" className="login-btn">{t("signup")}</button>
             </form>
-            <p className='text-center mt-3 account'>{t("have_an_account?")} <span onClick={() => navigate('/magic-login')}> {t("sign_in")}</span> </p>
+            <p className='text-center mt-3 account'>{t("have_an_account?")} <span onClick={() => navigate('/signin')}> {t("sign_in")}</span> </p>
             <p className='text-center how-to' onClick={() => setOpen(true)}> {t("how_to")}</p>
           </div>
         </div>

@@ -50,6 +50,8 @@ const Script = () => {
   }
   const onSubmit = async (data) => {
     const propertyValues = Object.values(links);
+    const isPediatrics = data.isPediatrics ? 1 : 0
+    const isAdult = data.isAdult ? 1 : 0
     const formData = new FormData()
 
     for (let i = 0; i < isSelected.length; i++) {
@@ -65,6 +67,8 @@ const Script = () => {
     formData.append("symptoms", data.symptoms)
     formData.append("treatments", data.treatments)
     formData.append("epidemiology", data.epidemiology)
+    formData.append("isPediatrics", isPediatrics)
+    formData.append("isAdult", isAdult)
 
     const res = await addScript(formData)
     if (res.success) {
@@ -112,11 +116,21 @@ const Script = () => {
           </Col>
 
           <Col md={6}>
-            <label className="script-label" htmlFor="title">{t("category")}</label>
+            <label className="script-label">{t("category")}</label>
             <select className="script-select" {...register("category_id")} required>
               <option value="">{t("select_categorie")}</option>
               {categories.map(({ id, name }) => (<option key={id} value={id}>{name}</option>))}
             </select>
+
+            <label className="script-label">Select type</label>
+            <div className="form-check form-check-inline type-check">
+              <input className="form-check-input" type="checkbox" id="pedi-check" value={true} {...register('isPediatrics')} />
+              <label className="form-check-label" htmlFor="pedi-check"> Pediatrics</label>
+            </div>
+            <div className="form-check form-check-inline type-check">
+              <input className="form-check-input" type="checkbox" id="adult-check" value={true} {...register('isAdult')} />
+              <label className="form-check-label" htmlFor="adult-check"> Adult</label>
+            </div>
 
             <label className="script-label" htmlFor="useful_link1">{t("useful_links")}</label>
             {[...Array(count).keys()].map((item) => <input key={item} className="script-form color" type="text" required name={item} value={links.item} onChange={handleChange} placeholder={`https://link${item}.com`} />)}

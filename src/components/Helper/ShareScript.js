@@ -1,12 +1,14 @@
 import axios from "axios";
-import { t } from "i18next";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { FaTimes } from "react-icons/fa";
 import swal from "sweetalert";
+
 import { useAuthContext } from "../../context/AuthContext";
 
 const ShareScript = ({ shareModal, closeShareModal, shareSlug }) => {
+  const { t } = useTranslation()
   const { register, handleSubmit } = useForm();
   const { API } = useAuthContext()
   const onSubmit = async (data) => {

@@ -1,14 +1,14 @@
 import axios from "axios";
-import { t } from "i18next";
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
-import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { FaMinus, FaPlus, FaTimes } from "react-icons/fa";
 import swal from "sweetalert";
+
 import { useAuthContext } from "../../context/AuthContext";
 
-const ReferFriends = ({ inviteModal, closeInviteModal }) => {
-  // const { register, handleSubmit, reset } = useForm();
+const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow }) => {
+  const { t } = useTranslation()
   const [emails, setEmails] = useState({});
   const [count, setCount] = useState(1);
   const { API } = useAuthContext()
@@ -23,11 +23,15 @@ const ReferFriends = ({ inviteModal, closeInviteModal }) => {
     try {
       const res = await axios.post(`${API}/refer-friend`, formData)
       closeInviteModal()
+      const isRefeerFriend = localStorage.getItem("showReferFriend")
+      if (isRefeerFriend) membershipShow();
       setCount(1)
       setEmails({})
+      localStorage.removeItem("showReferFriend")
       swal(res.data.message, "", "success");
     } catch (err) {
       closeInviteModal()
+      localStorage.removeItem("showReferFriend")
       setCount(1)
       setEmails({})
       swal(err.response.data.errors.email[0], "", "error");

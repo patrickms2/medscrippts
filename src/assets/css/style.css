@@ -1534,6 +1534,9 @@ button,input {
 .new-script-form .script-btn.delete{
   background: #FE862D;
 }
+.new-script-form .type-check{
+  margin-bottom: 16px;
+}
 /* New Script end here */
 /* compare-data-table start here */
 .compare-data-table {

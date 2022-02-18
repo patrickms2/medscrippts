@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
 import swal from 'sweetalert';
+import { useTranslation } from "react-i18next";
 
 import logo from '../assets/images/logo.png';
 import { useAuthContext } from "../context/AuthContext";
-import { t } from "i18next";
 const ResetPassword = () => {
+  const { t } = useTranslation()
   const [showPassword, setShowPassword] = useState(false)
   const [showConPassword, setShowConPassword] = useState(false)
   const { resetPassword } = useAuthContext()

@@ -1,7 +1,7 @@
-import { t } from 'i18next';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { FaTimes } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import swal from 'sweetalert';
@@ -9,6 +9,7 @@ import swal from 'sweetalert';
 import { useAuthContext } from '../../context/AuthContext';
 
 const ChangePassword = ({ showPassword, passwordClose }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate();
   const { changePassword } = useAuthContext()
   const { register, handleSubmit } = useForm();

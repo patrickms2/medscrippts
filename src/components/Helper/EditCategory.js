@@ -1,8 +1,8 @@
 import axios from "axios";
-import { t } from "i18next";
 import { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { FaTimes } from "react-icons/fa";
 
 import { useAuthContext } from "../../context/AuthContext";
@@ -10,6 +10,7 @@ import { useCategoryContext } from "../../context/CategoryContext";
 import ModalLoader from "../Common/ModalLoader";
 
 const EditCategory = ({ slug, updateShow, handleUpdateClose, setSlug }) => {
+  const { t } = useTranslation()
   const { API } = useAuthContext()
   const { register, handleSubmit } = useForm();
   const { getAllCategories } = useCategoryContext();

@@ -1,6 +1,6 @@
 import axios from "axios";
-import { t } from "i18next";
 import moment from "moment";
+import { useTranslation } from 'react-i18next';
 import { useRef, useState } from "react";
 import { useEffect } from "react";
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
@@ -36,6 +36,7 @@ function SamplePrevArrow(props) {
 }
 
 const Compare = () => {
+  const { t } = useTranslation()
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
   const [isLoading, setIsLoading] = useState(true);

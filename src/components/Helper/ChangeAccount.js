@@ -2,25 +2,24 @@ import { Col, Modal, Row } from "react-bootstrap"
 import { useForm } from "react-hook-form";
 import { CgArrowRight } from "react-icons/cg";
 import swal from "sweetalert";
-import { CSVLink } from "react-csv";
 import { FaTimes } from "react-icons/fa";
-import { t } from "i18next";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import axios from "axios";
 
 import user1 from '../../assets/images/user-1.png';
 import editIcon from '../../assets/images/icons/edit.png';
 import editColor from '../../assets/images/icons/edit-color.svg';
 import { useAuthContext } from "../../context/AuthContext";
-import { useCategoryContext } from "../../context/CategoryContext";
-import axios from "axios";
-import { useEffect, useState } from "react";
 
-const ChangeAccount = ({ showAccount, accountClose, passwordShow, remainingDays, handleShowChangeImage }) => {
+const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowChangeImage }) => {
+  const { t } = useTranslation()
   const [dataInCSV, setDataInCSV] = useState("");
   const { API } = useAuthContext()
-  const { scripts } = useCategoryContext()
   const { updateUser } = useAuthContext()
   const { register, handleSubmit } = useForm();
   const authUser = JSON.parse(localStorage.getItem("authUser"))
+
   const changeUser = async (data) => {
     const res = await updateUser(data);
     if (res.success) {
@@ -106,10 +105,10 @@ const ChangeAccount = ({ showAccount, accountClose, passwordShow, remainingDays,
           </Row>
 
           <div className="changes-btns">
-            <div onClick={passwordShow} className="single-btns">
+            {/* <div onClick={passwordShow} className="single-btns">
               <CgArrowRight className="icon" />
               <span className="span"> {t("change_password")}</span>
-            </div>
+            </div> */}
             <div className="single-btns">
               <CgArrowRight className="icon" />
               <a href={dataInCSV} download className="span">{t("download_csv")}</a>

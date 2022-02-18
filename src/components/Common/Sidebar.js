@@ -20,7 +20,6 @@ import ModalLoader from './ModalLoader';
 const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
   const [isPedi, setisPedi] = useState(false);
   const [isAdult, setIsAdult] = useState(false);
-  // const [filterdScripts, setFilterdScripts] = useState([]);
   const { categories, scripts, setFilterdScripts } = useCategoryContext()
   const { API } = useAuthContext()
   const [isLoading, setIsLoading] = useState(false);
@@ -37,9 +36,9 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
     const res = await logout()
     if (res.success) {
       swal(res.message, "", "success");
-      navigate("/magic-login")
+      navigate("/signin")
     } else {
-      navigate("/magic-login")
+      navigate("/signin")
     }
   }
   const handleAllBlur = () => {

@@ -2,16 +2,18 @@ import axios from "axios";
 import { FaTimes } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
-import { t } from "i18next";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from "@stripe/stripe-js";
+import { useTranslation } from "react-i18next";
 
 import { useAuthContext } from "../../context/AuthContext";
 import packegIcon from '../../assets/images/icons/packeg.png';
 import PaymentForm from "./PaymentForm";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
+
 const Membership = ({ showMembership, membershipClose, remainingDays }) => {
+  const { t } = useTranslation()
   const { API } = useAuthContext();
   const [selectedPackage, setSelectedPackage] = useState({})
   const [packages, setPackages] = useState([]);

@@ -1,19 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { FaChevronLeft } from "react-icons/fa";
 import { Outlet } from 'react-router-dom';
-import { Button, Modal } from "react-bootstrap";
 import swal from "sweetalert";
 import axios from "axios";
 
 import { useCategoryContext } from "../../context/CategoryContext";
-import CategoryModal from "../Dashboard/CategoryModal";
 import Header from "./Header"
 import Sidebar from "./Sidebar"
-import editIcon from '../../assets/images/icons/edit2.png';
-import deleteIcon from '../../assets/images/icons/delete.png';
 import { useAuthContext } from "../../context/AuthContext";
-import AddCategory from "../Helper/AddCategory";
-import EditCategory from "../Helper/EditCategory";
 
 const Layout = () => {
   const [slug, setSlug] = useState("")

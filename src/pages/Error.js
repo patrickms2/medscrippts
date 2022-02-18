@@ -1,8 +1,9 @@
-import { t } from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import errorIcon from '../assets/images/error.png';
 
 const Error = ({ height }) => {
+  const { t } = useTranslation()
   const navigate = useNavigate()
   return <div className='error-page' style={{ height: height ? "calc(100vh - 103px)" : "100vh" }}>
     <div>

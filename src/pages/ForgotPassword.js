@@ -1,5 +1,5 @@
-import { t } from "i18next";
 import { useForm } from "react-hook-form";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 
@@ -7,6 +7,7 @@ import logo from '../assets/images/logo.png';
 import { useAuthContext } from "../context/AuthContext";
 
 const ForgotPassword = () => {
+  const { t } = useTranslation()
   const { forgotPassword } = useAuthContext()
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();

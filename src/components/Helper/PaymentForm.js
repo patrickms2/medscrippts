@@ -1,13 +1,14 @@
 import { useStripe, useElements, CardElement } from '@stripe/react-stripe-js';
 import axios from 'axios';
-import { t } from 'i18next';
 import { useEffect, useState } from 'react';
 import swal from 'sweetalert';
+import { useTranslation } from 'react-i18next';
 
 import ModalLoader from '../Common/ModalLoader';
 import { useAuthContext } from '../../context/AuthContext';
 
 const PaymentForm = ({ selectedPackage, membershipClose }) => {
+  const { t } = useTranslation()
   const { API } = useAuthContext()
   const [loading, setLoading] = useState(false);
   const [paymentError, setPaymentError] = useState("");
@@ -34,7 +35,7 @@ const PaymentForm = ({ selectedPackage, membershipClose }) => {
         if (checkMembership.data.data.is_member) {
           membershipClose()
           setLoading(false)
-          swal("Already a pro member!", "", "success");
+          swal("Already a pro member!", "", "warning");
         } else {
           const { id } = paymentMethod
           const response = await axios.post(`${API}/payments/pay`, {

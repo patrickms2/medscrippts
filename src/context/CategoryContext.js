@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState, useContext } from "react";
+
 import { useAuthContext } from "./AuthContext";
 
 const CategoryContext = React.createContext();
