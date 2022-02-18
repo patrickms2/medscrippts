@@ -1144,15 +1144,16 @@ button,input {
   color: transparent;
   text-shadow: 0 0 8px rgba(0, 0, 0);
 }
-.scripts-details .details-left .details-links input{
+.scripts-details .details-left .details-links .link{
   font-size: 14px;
   font-weight: 500;
   width: 410px;
   max-width: 100%;
-  height: 55px;
+  padding: 17px 28px;
+  /* height: 55px; */
   border-radius: 12px;
   outline: none;
-  padding: 0 28px;
+  /* padding: 0 28px; */
   background: rgba(247, 249, 253, 0.8);
   color: #3981F4;
   border: 1px solid rgba(180, 198, 235, 0.15);

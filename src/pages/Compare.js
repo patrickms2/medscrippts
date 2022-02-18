@@ -68,7 +68,7 @@ const Compare = () => {
 
   const handleClick = (e, id) => {
     if (localStorage.getItem(id)) {
-      e.target.classList.toggle("blur")
+      e.currentTarget.classList.toggle("blur")
     }
   }
 
@@ -205,7 +205,9 @@ const Compare = () => {
                         </div>
                         <div className="details-links">
                           <h3 className="title">{t("links")}</h3>
-                          <input type="text" defaultValue={useful_links[0].link} />
+                          <div className="link">
+                            <a href={`http://${useful_links[0].link}`} target="_blank" rel="noopener noreferrer">{useful_links[0].link}</a>
+                          </div>
                         </div>
                         <div className="share">
                           <FaShareAlt onClick={() => {

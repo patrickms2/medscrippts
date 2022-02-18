@@ -43,6 +43,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const [showChangeImage, setShowChangeImage] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([])
   const [inviteModal, setInviteModal] = useState(false);
+  const [packages, setPackages] = useState([]);
 
   const showInviteModal = () => setInviteModal(true)
   const closeInviteModal = () => setInviteModal(false)
@@ -138,6 +139,16 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     swal(res.data.message, "", "success");
   }
 
+  const getPackages = () => {
+    axios.get(`${API}/all-packages`)
+      .then(res => {
+        setPackages(res.data.data)
+
+      })
+  }
+  useEffect(() => {
+    getPackages()
+  }, [])
 
 
   useEffect(() => {
