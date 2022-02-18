@@ -134,5 +134,7 @@
   "invite_text": "Al menos invita a 3 amigos a obtener un descuento de afiliado.",
   "save_changes": "Guardar cambios",
   "write": "escribir",
-  "filter": "filtrar"
+  "filter": "filtrar",
+  "select_type": "seleccione tipo",
+  "adult": "adulto"
 }

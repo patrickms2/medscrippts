@@ -134,5 +134,7 @@
   "invite_text": "At least invite 3 friends to get an affiliate discount.",
   "save_changes": "Save Changes",
   "write": "Write",
-  "filter": "filter"
+  "filter": "filter",
+  "select_type": "Select type",
+  "adult": "Adult"
 }

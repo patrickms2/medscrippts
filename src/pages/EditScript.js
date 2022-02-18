@@ -193,14 +193,14 @@ const EditScript = () => {
                 {categories.map(({ id, name }) => (<option key={id} value={id}>{name}</option>))}
               </select>
 
-              <label className="script-label">Select type</label>
+              <label className="script-label">{t("select_type")}</label>
               <div className="form-check form-check-inline type-check">
                 <input className="form-check-input" type="checkbox" id="pedi-check" defaultChecked={isPediatrics == 1 ? true : false} value={true} {...register('isPediatrics')} />
-                <label className="form-check-label" htmlFor="pedi-check"> Pediatrics</label>
+                <label className="form-check-label" htmlFor="pedi-check"> {t("pediatrics")}</label>
               </div>
               <div className="form-check form-check-inline type-check">
                 <input className="form-check-input" type="checkbox" id="adult-check" defaultChecked={isAdult == 1 ? true : false} value={true} {...register('isAdult')} />
-                <label className="form-check-label" htmlFor="adult-check"> Adult</label>
+                <label className="form-check-label" htmlFor="adult-check"> {t("adult")}</label>
               </div>
 
               <label className="script-label" htmlFor="useful_link1">{t("useful_links")}</label>
