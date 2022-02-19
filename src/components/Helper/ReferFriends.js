@@ -7,7 +7,7 @@ import swal from "sweetalert";
 
 import { useAuthContext } from "../../context/AuthContext";
 
-const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow }) => {
+const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow, getPackages }) => {
   const { t } = useTranslation()
   const [emails, setEmails] = useState({});
   const [count, setCount] = useState(1);
@@ -22,6 +22,7 @@ const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow }) => {
     }
     try {
       const res = await axios.post(`${API}/refer-friend`, formData)
+      getPackages()
       closeInviteModal()
       const isRefeerFriend = localStorage.getItem("showReferFriend")
       if (isRefeerFriend) membershipShow();

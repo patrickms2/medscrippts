@@ -44,8 +44,10 @@ const ViewScript = () => {
       swal(res.message, "", "error");
     }
   }
-  const handleClick = (e) => {
-    e.target.classList.toggle("blur")
+  const handleClick = (e, id) => {
+    if (localStorage.getItem(id)) {
+      e.target.classList.toggle("blur")
+    }
   }
   const getScript = async () => {
     try {
@@ -80,19 +82,19 @@ const ViewScript = () => {
                   <div className="details-left">
                     <h2 className="title">{title}</h2>
                     <div>
-                      <p className="text"><span>{t("path")}</span> <span onClick={handleClick} className={`patho normal ${localStorage.getItem("patho") ? "blur" : ""}`}>{pathophysiology}</span> </p>
+                      <p className="text"><span>{t("path")}</span> <span onClick={(e) => handleClick(e, "patho")} className={`patho normal ${localStorage.getItem("patho") ? "blur" : ""}`}>{pathophysiology}</span> </p>
                     </div>
                     <div>
-                      <p className="text"><span>{t("epi")}</span> <span onClick={handleClick} className={`epide normal ${localStorage.getItem("epide") ? "blur" : ""}`}>{epidemiology}</span> </p>
+                      <p className="text"><span>{t("epi")}</span> <span onClick={(e) => handleClick(e, "epide")} className={`epide normal ${localStorage.getItem("epide") ? "blur" : ""}`}>{epidemiology}</span> </p>
                     </div>
                     <div>
-                      <p className="text"><span>{t("ss")}</span> <span onClick={handleClick} className={`symp normal ${localStorage.getItem("symp") ? "blur" : ""}`}>{symptoms}</span> </p>
+                      <p className="text"><span>{t("ss")}</span> <span onClick={(e) => handleClick(e, "symp")} className={`symp normal ${localStorage.getItem("symp") ? "blur" : ""}`}>{symptoms}</span> </p>
                     </div>
                     <div>
-                      <p className="text"><span>{t("dx")}</span> <span onClick={handleClick} className={`diagn normal ${localStorage.getItem("diagn") ? "blur" : ""}`}>{diagnostics}</span></p>
+                      <p className="text"><span>{t("dx")}</span> <span onClick={(e) => handleClick(e, "diagn")} className={`diagn normal ${localStorage.getItem("diagn") ? "blur" : ""}`}>{diagnostics}</span></p>
                     </div>
                     <div>
-                      <p className="text"><span>{t("tx")}</span> <span onClick={handleClick} className={`treat normal ${localStorage.getItem("treat") ? "blur" : ""}`}> {treatments}</span></p>
+                      <p className="text"><span>{t("tx")}</span> <span onClick={(e) => handleClick(e, "treat")} className={`treat normal ${localStorage.getItem("treat") ? "blur" : ""}`}> {treatments}</span></p>
                     </div>
 
                     <div className="details-links">

@@ -1,30 +1,31 @@
-import axios from "axios";
 import { FaTimes } from "react-icons/fa";
-import { useEffect, useState } from "react";
 import { Col, Modal, Row } from "react-bootstrap";
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from "@stripe/stripe-js";
 import { useTranslation } from "react-i18next";
 
-import { useAuthContext } from "../../context/AuthContext";
 import packegIcon from '../../assets/images/icons/packeg.png';
 import PaymentForm from "./PaymentForm";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../context/AuthContext";
+import swal from "sweetalert";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
-const Membership = ({ showMembership, membershipClose, remainingDays }) => {
+const Membership = ({ showMembership, membershipClose, remainingDays, packages, selectedPackage, handleSlectedPackages }) => {
+  const { logout } = useAuthContext();
+  const navigate = useNavigate()
   const { t } = useTranslation()
-  const { API } = useAuthContext();
-  const [selectedPackage, setSelectedPackage] = useState({})
-  const [packages, setPackages] = useState([]);
-  useEffect(() => {
-    axios.get(`${API}/all-packages`)
-      .then(res => {
-        setPackages(res.data.data)
-        setSelectedPackage(res.data.data[0])
-      })
 
-  }, [])
+  const handleClick = async () => {
+    const res = await logout()
+    if (res.success) {
+      swal(res.message, "", "success");
+      navigate("/signin")
+    } else {
+      navigate("/signin")
+    }
+  }
   return (
     <Modal show={showMembership} onHide={remainingDays && membershipClose} centered className="membership-modal">
       <Modal.Body>
@@ -39,7 +40,7 @@ const Membership = ({ showMembership, membershipClose, remainingDays }) => {
                 <img src={packegIcon} alt="packeg-icon" />
                 <h3 className="price">${packag.price}</h3>
                 <h5 className="name">{packag.name}</h5>
-                <button className="select" onClick={() => setSelectedPackage(packag)}>{t("select")}</button>
+                <button className="select" onClick={() => handleSlectedPackages(packag)}>{t("select")}</button>
               </div>
             </Col>
           ))}
@@ -47,6 +48,10 @@ const Membership = ({ showMembership, membershipClose, remainingDays }) => {
         <Elements stripe={stripePromise}>
           <PaymentForm selectedPackage={selectedPackage} membershipClose={membershipClose} />
         </Elements>
+        {remainingDays < 1 && (
+          <button className="subscrib mt-4" onClick={handleClick}>logout</button>
+        )}
+
       </Modal.Body>
       {remainingDays > 0 && (
         <div className="cross-icon" onClick={membershipClose}>

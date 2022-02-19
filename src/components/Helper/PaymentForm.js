@@ -67,57 +67,6 @@ const PaymentForm = ({ selectedPackage, membershipClose }) => {
         swal(err.response.message, "", "error");
       }
 
-      // try {
-      //   setLoading(true)
-      //   const { id } = paymentMethod
-      //   const response = await axios.post(`${API}/payments/pay`, {
-      //     value: selectedPackage.price,
-      //     currency: "usd",
-      //     payment_platform: 1,
-      //     package_id: selectedPackage.id,
-      //     payment_method: id
-      //   })
-      //   try {
-      //     const checkMembership = await axios.get(`${API}/membership-check`)
-      //     if (checkMembership.data.data.is_member) {
-      //       try {
-      //         const updateMembership = await axios.post(`${API}/update-membership`, {
-      //           package_id: selectedPackage.id,
-      //           txn: response.data.data.txn
-      //         })
-      //         membershipClose()
-      //         setLoading(false)
-      //         swal(updateMembership.data.message, "", "success");
-      //         window.location.reload(false);
-      //       } catch (err) {
-      //         setLoading(false)
-      //         swal(err.response.message, "", "error");
-      //       }
-
-      //     } else {
-      //       try {
-      //         const createMembership = await axios.post(`${API}/create-membership`, {
-      //           package_id: selectedPackage.id,
-      //           txn: response.data.data.txn
-      //         })
-      //         membershipClose()
-      //         setLoading(false)
-      //         swal(createMembership.data.message, "", "success");
-      //         window.location.reload(false);
-      //       } catch (err) {
-      //         setLoading(false)
-      //         swal(err.response.message, "", "error");
-      //       }
-      //     }
-      //   } catch (err) {
-      //     setLoading(false)
-      //     swal(err.response.message, "", "error");
-      //   }
-      // } catch (err) {
-      //   setLoading(false)
-      //   swal(err.response.message, "", "error");
-      // }
-
     }
   };
 

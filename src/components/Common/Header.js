@@ -44,6 +44,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const [selectedFiles, setSelectedFiles] = useState([])
   const [inviteModal, setInviteModal] = useState(false);
   const [packages, setPackages] = useState([]);
+  const [selectedPackage, setSelectedPackage] = useState({})
 
   const showInviteModal = () => setInviteModal(true)
   const closeInviteModal = () => setInviteModal(false)
@@ -143,8 +144,11 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     axios.get(`${API}/all-packages`)
       .then(res => {
         setPackages(res.data.data)
-
+        setSelectedPackage(res.data.data[0])
       })
+  }
+  const handleSlectedPackages = (packag) => {
+    setSelectedPackage(packag)
   }
   useEffect(() => {
     getPackages()
@@ -333,7 +337,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
           <FaTimes />
         </div>
       </Modal>
-      <Membership showMembership={showMembership} membershipClose={membershipClose} remainingDays={remainingDays} />
+      <Membership packages={packages} selectedPackage={selectedPackage} handleSlectedPackages={handleSlectedPackages} showMembership={showMembership} membershipClose={membershipClose} remainingDays={remainingDays} />
       <Modal show={showChangeImage} onHide={() => {
         handleCloseChangeImage()
         accountShow()
@@ -359,7 +363,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
         </div>
       </Modal>
 
-      <ReferFriends inviteModal={inviteModal} closeInviteModal={closeInviteModal} membershipShow={membershipShow} />
+      <ReferFriends inviteModal={inviteModal} getPackages={getPackages} closeInviteModal={closeInviteModal} membershipShow={membershipShow} />
 
       {/* <ChangePassword showPassword={showPassword} passwordClose={passwordClose} /> */}
     </>
