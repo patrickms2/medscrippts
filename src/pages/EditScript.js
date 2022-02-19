@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import { FaMinus, FaPlus, FaTimes } from "react-icons/fa";
+import Select from 'react-select';
 
 import { useCategoryContext } from "../context/CategoryContext";
 import { useAuthContext } from "../context/AuthContext";
@@ -27,6 +28,7 @@ const EditScript = () => {
   const { categories } = useCategoryContext()
   const params = useParams();
   const [selectedFiles, setSelectedFiles] = useState([])
+  const [selectedOption, setSelectedOption] = useState('');
 
   const [show, setShow] = useState(false);
 
@@ -83,7 +85,7 @@ const EditScript = () => {
       formData.append("useful_link[]", propertyValues[i])
     }
 
-    formData.append("category_id", data.category_id)
+    formData.append("category_id", selectedOption)
     formData.append("title", data.title)
     formData.append("pathophysiology", data.pathophysiology)
     formData.append("diagnostics", data.diagnostics)
@@ -129,6 +131,7 @@ const EditScript = () => {
     try {
       const res = await axios.get(`${API}/view-script/${params.slug}`)
       setScript(res.data.data)
+      setSelectedOption(res.data.data.category_id)
       setSelectedFiles(res.data.data.images)
       setCount(res.data.data.useful_links.length)
       let newLinks = {}
@@ -143,6 +146,10 @@ const EditScript = () => {
       setIsLoading(false)
     }
   }
+
+  const handleSelect = (data) => {
+    setSelectedOption(data.value)
+  }
   useEffect(() => {
     getScript()
   }, [])
@@ -154,7 +161,9 @@ const EditScript = () => {
   if (isError) {
     return <Error height={true} />
   }
+  const options = categories.map(({ id, name }) => { return { value: id, label: name } })
   const { title, pathophysiology, symptoms, diagnostics, epidemiology, treatments, category_id, isPediatrics, isAdult } = script
+
   return (
     <>
       <Container fluid>
@@ -188,10 +197,7 @@ const EditScript = () => {
             </Col>
             <Col md={6}>
               <label className="script-label">{t("category")}</label>
-              <select className="script-select" {...register("category_id")} defaultValue={category_id} required>
-                <option value="">{t("select_categories")}</option>
-                {categories.map(({ id, name }) => (<option key={id} value={id}>{name}</option>))}
-              </select>
+              <Select options={options} defaultValue={options.find(item => item.value == category_id)} onChange={handleSelect} />
 
               <label className="script-label">{t("select_type")}</label>
               <div className="form-check form-check-inline type-check">

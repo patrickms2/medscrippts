@@ -3,7 +3,7 @@ import swal from 'sweetalert';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
-import Select from 'react-select'
+import Select from 'react-select';
 import { FaChevronRight } from 'react-icons/fa';
 import moment from 'moment';
 import axios from 'axios';
@@ -27,7 +27,7 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
   const [showScriptSidebar, setShowScriptSidebar] = useState(false);
   const { t } = useTranslation()
   const { register, handleSubmit, reset } = useForm();
-  const [selectedOption, setSelectedOption] = useState('family-medicine');
+  const [selectedOption, setSelectedOption] = useState();
   const inputRef = useRef(null)
   const { logout } = useAuthContext()
   const navigate = useNavigate();

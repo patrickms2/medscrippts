@@ -1538,6 +1538,44 @@ button,input {
 .new-script-form .type-check{
   margin-bottom: 16px;
 }
+.new-script-form .css-1s2u09g-control{
+  height: 56px;
+  border: 1px solid rgba(180, 198, 235, 0.2);
+  box-shadow: none;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+.new-script-form .css-1s2u09g-control:hover{
+  border-color: rgba(180, 198, 235, 0.2);
+}
+.new-script-form .css-319lph-ValueContainer{
+  height: 54px;
+}
+.new-script-form .css-1pahdxg-control {
+  border-color: rgba(180, 198, 235, 0.2);
+  box-shadow: none;
+  margin-bottom: 16px;
+  border-radius: 12px;
+}
+.new-script-form .css-1pahdxg-control:hover {
+  border-color: rgba(180, 198, 235, 0.2);
+  border-radius: 12px;
+}
+.new-script-form .top-label {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 9px;
+}
+.new-script-form .top-label button{
+  font-size: 12px;
+  text-transform: capitalize;
+  color: #3981F4;
+  background-color: transparent;
+}
+.new-script-form .top-label .script-label {
+  margin-bottom: 0px;
+}
 /* New Script end here */
 /* compare-data-table start here */
 .compare-data-table {

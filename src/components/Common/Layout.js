@@ -17,13 +17,10 @@ const Layout = () => {
   const [showSidebar, setShowSidebar] = useState(false);
   const [show, setShow] = useState(false);
   const [deleteShow, setDeleteShow] = useState(false)
-  const [addShow, setAddShow] = useState(false)
   const [updateShow, setUpdateShow] = useState(false)
 
   const handleUpdateShow = () => setUpdateShow(true)
   const handleUpdateClose = () => setUpdateShow(false)
-  const handleAddShow = () => setAddShow(true)
-  const handleAddClose = () => setAddShow(false)
   const handleDeleteClose = () => setDeleteShow(false)
   const handleDeleteShow = () => setDeleteShow(true)
   const handleClose = () => setShow(false);
@@ -111,7 +108,7 @@ const Layout = () => {
           }} variant="danger">{t("yes")}</Button>
         </Modal.Body>
       </Modal>
-      <AddCategory addShow={addShow} handleAddClose={handleAddClose} />
+     
       {slug && <CategoryModal show={show} handleClose={handleClose} slug={slug} setSlug={setSlug} categoreName={categoreName} />}
 
       {slug && <EditCategory slug={slug} setSlug={setSlug} updateShow={updateShow} handleUpdateClose={handleUpdateClose} />} */}
