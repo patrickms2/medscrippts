@@ -610,7 +610,7 @@ button,input {
   display: flex;
   flex-flow: row wrap;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 }
 .account-modal .changes-btns .single-btns{
   margin-top: 15px;

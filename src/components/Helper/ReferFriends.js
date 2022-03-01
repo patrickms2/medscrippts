@@ -7,6 +7,7 @@ import swal from "sweetalert";
 
 import { useAuthContext } from "../../context/AuthContext";
 import spinner from '../../assets/images/spinner.svg';
+
 const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow, getPackages }) => {
   const { t } = useTranslation()
   const [isLoading, setIsLoading] = useState(false)
@@ -84,7 +85,7 @@ const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow, getPackag
     <div className="cross-icon" onClick={handleModal}>
       <FaTimes />
     </div>
-  </Modal>;
-};
+  </Modal>
+}
 
 export default ReferFriends;

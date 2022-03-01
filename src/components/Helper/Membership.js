@@ -22,12 +22,14 @@ const Membership = ({ showMembership, membershipClose, remainingDays, packages, 
       swal(res.message, "", "success");
       navigate("/signin")
     } else {
+      localStorage.removeItem('authToken')
+      localStorage.removeItem("authUser")
       navigate("/signin")
     }
   }
 
   return (
-    <Modal show={showMembership} onHide={remainingDays && membershipClose} centered className="membership-modal">
+    <Modal show={showMembership} onHide={remainingDays > 0 && membershipClose} centered className="membership-modal">
       <Modal.Body>
         <div className="text-center">
           <h4 className="title">{t("choose_your_plan")}</h4>

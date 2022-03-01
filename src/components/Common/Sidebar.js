@@ -38,6 +38,8 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
       swal(res.message, "", "success");
       navigate("/signin")
     } else {
+      localStorage.removeItem('authToken')
+      localStorage.removeItem("authUser")
       navigate("/signin")
     }
   }

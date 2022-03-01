@@ -62,21 +62,19 @@ const PaymentForm = ({ selectedPackage, membershipClose, getRemainingDays, check
               swal(createMembership.data.message, "", "success");
             } catch (err) {
               setLoading(false)
-              membershipClose()
-              swal(err.response.message, "", "error");
+              swal(err.response.data.message, "", "error");
             }
           } catch (err) {
             setLoading(false)
             membershipClose()
-            swal(err.response.message, "", "error");
+            swal(err.response.data.message, "", "error");
           }
         }
       } catch (err) {
         setLoading(false)
         membershipClose()
-        swal(err.response.message, "", "error");
+        swal(err.response.data.message, "", "error");
       }
-
     }
   };
 
@@ -86,6 +84,7 @@ const PaymentForm = ({ selectedPackage, membershipClose, getRemainingDays, check
     }, 3000);
     return () => clearTimeout(timeOut);
   }, [paymentError]);
+
   return (
     <form onSubmit={handleSubmit}>
       <CardElement />

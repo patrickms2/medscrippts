@@ -36,7 +36,6 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const [showNotification, setShowNotification] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
   const [showHelps, setShowHelps] = useState(false);
   const [showMembership, setShowMembership] = useState(false)
@@ -59,25 +58,19 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const termsShow = () => setShowTerms(true)
   const membershipClose = () => setShowMembership(false)
   const membershipShow = () => setShowMembership(true)
-
   const accountClose = () => setShowAccount(false);
   const settingsClose = () => setShowSettings(false);
-  const passwordClose = () => {
-    setShowPassword(false);
-    setShowAccount(true);
-  };
   const accountShow = () => setShowAccount(true);
   const settingsShow = () => setShowSettings(true);
-  const passwordShow = () => {
-    setShowAccount(false);
-    setShowPassword(true);
-  };
+
   const handleClick = async () => {
     const res = await logout()
     if (res.success) {
       swal(res.message, "", "success");
       navigate("/signin")
     } else {
+      localStorage.removeItem('authToken')
+      localStorage.removeItem("authUser")
       navigate("/signin")
     }
   }
@@ -102,7 +95,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     const res = await axios.get(`${API}/remaining-days`)
     const days = res.data.data.remain_days
     setRemainingDays(days)
-    if (days === 0) {
+    if (days <= 0) {
       setShowMembership(true)
     }
     if (localStorage.getItem("showReferFriend")) {
@@ -180,9 +173,8 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
       setIsButtonShow(false)
       swal(res.data.message, "", "success");
     } catch (err) {
-      swal(err.response.message, "", "error");
+      swal(err.response.data.message, "", "error");
     }
-
   }
   useEffect(() => {
     checkMembership()
