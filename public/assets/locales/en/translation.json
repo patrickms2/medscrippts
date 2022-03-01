@@ -136,5 +136,6 @@
   "write": "Write",
   "filter": "filter",
   "select_type": "Select type",
-  "adult": "Adult"
+  "adult": "Adult",
+  "wait_text": "Please Wait for sync premade scripts ..."
 }

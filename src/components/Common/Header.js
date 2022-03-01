@@ -45,6 +45,9 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const [inviteModal, setInviteModal] = useState(false);
   const [packages, setPackages] = useState([]);
   const [selectedPackage, setSelectedPackage] = useState({})
+  const [isButtonShow, setIsButtonShow] = useState(false)
+  const [isMember, setIsMember] = useState(false)
+  const [viewMember, setViewMember] = useState({})
 
   const showInviteModal = () => setInviteModal(true)
   const closeInviteModal = () => setInviteModal(false)
@@ -79,10 +82,6 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     }
   }
 
-  useEffect(() => {
-    axios.get(`${API}/all-languages`)
-      .then(res => setLanguages(res.data.data))
-  }, [])
   const handleLanguage = (e) => {
     i18n.changeLanguage(e.target.value)
     localStorage.setItem("API", `https://medscrippts-app.zainiklab.com/api/${e.target.value}/v1`)
@@ -102,12 +101,12 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const getRemainingDays = async () => {
     const res = await axios.get(`${API}/remaining-days`)
     const days = res.data.data.remain_days
+    setRemainingDays(days)
     if (days === 0) {
       setShowMembership(true)
-    } else {
-      if (localStorage.getItem("showReferFriend")) {
-        setInviteModal(true)
-      }
+    }
+    if (localStorage.getItem("showReferFriend")) {
+      setInviteModal(true)
     }
   }
 
@@ -140,26 +139,63 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     swal(res.data.message, "", "success");
   }
 
-  const getPackages = () => {
-    axios.get(`${API}/all-packages`)
-      .then(res => {
-        setPackages(res.data.data)
-        setSelectedPackage(res.data.data[0])
+  const getPackages = async () => {
+    const res = await axios.get(`${API}/all-packages`)
+    const refer = await axios.get(`${API}/refer-list`)
+    const allPackage = res.data.data
+    const referList = refer.data.data
+    if (referList.length >= 3) {
+      const newAllPackage = allPackage.map((item) => {
+        item.price = item.discount_price
+        item.plan_id = item.discount_plan_id
+
+        return item
       })
+      setPackages(newAllPackage)
+      setSelectedPackage(newAllPackage[0])
+    } else {
+      setPackages(allPackage)
+      setSelectedPackage(allPackage[0])
+    }
   }
-  const handleSlectedPackages = (packag) => {
+  const handleSlectedPackages = async (packag) => {
     setSelectedPackage(packag)
   }
+  const checkMembership = async () => {
+    const res = await axios.get(`${API}/membership-check`)
+    if (res.data.data.is_member) {
+      const view = await axios.get(`${API}/view-membership`)
+      if (view.data.data.store == 'stripe' && !view.data.data.is_recurring) {
+        setIsButtonShow(false)
+      } else {
+        setIsButtonShow(true)
+        setViewMember(view.data.data)
+      }
+    }
+    setIsMember(res.data.data.is_member)
+  }
+  const cancleMemberShip = async () => {
+    try {
+      const res = await axios.post(`${API}/membership-cancel`, { payment_intent: viewMember.payment_intent, payment_platform: 1 })
+      setIsButtonShow(false)
+      swal(res.data.message, "", "success");
+    } catch (err) {
+      swal(err.response.message, "", "error");
+    }
+
+  }
+  useEffect(() => {
+    checkMembership()
+  }, [])
   useEffect(() => {
     getPackages()
   }, [])
 
-
   useEffect(() => {
-    axios.get(`${API}/remaining-days`)
-      .then(res => {
-        setRemainingDays(res.data.data.remain_days)
-      })
+    axios.get(`${API}/all-languages`)
+      .then(res => setLanguages(res.data.data))
+  }, [])
+  useEffect(() => {
     getRemainingDays()
   }, [])
   return (
@@ -259,7 +295,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
           </Row>
         </Container>
       </div >
-      <ChangeAccount showAccount={showAccount} accountClose={accountClose} passwordShow={passwordShow} remainingDays={remainingDays} handleShowChangeImage={handleShowChangeImage} />
+      <ChangeAccount showAccount={showAccount} accountClose={accountClose} remainingDays={remainingDays} handleShowChangeImage={handleShowChangeImage} cancleMemberShip={cancleMemberShip} isButtonShow={isButtonShow} isMember={isMember} />
       <Modal className="settings-modal" centered show={showSettings} onHide={settingsClose}>
         <Modal.Body>
           <h2>{t("settings")}</h2>
@@ -337,7 +373,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
           <FaTimes />
         </div>
       </Modal>
-      <Membership packages={packages} selectedPackage={selectedPackage} handleSlectedPackages={handleSlectedPackages} showMembership={showMembership} membershipClose={membershipClose} remainingDays={remainingDays} />
+      <Membership packages={packages} selectedPackage={selectedPackage} handleSlectedPackages={handleSlectedPackages} showMembership={showMembership} membershipClose={membershipClose} remainingDays={remainingDays} getRemainingDays={getRemainingDays} checkMembership={checkMembership} />
       <Modal show={showChangeImage} onHide={() => {
         handleCloseChangeImage()
         accountShow()

@@ -139,10 +139,6 @@ const Script = () => {
                 <button onClick={handleAddShow}>+ {t("add_category")}</button>
               </div>
               <Select options={options} placeholder={t("select_categorie")} onChange={handleSelect} />
-              {/* <select className="script-select" {...register("category_id")} required>
-              <option value="">{t("select_categorie")}</option>
-              {categories.map(({ id, name }) => (<option key={id} value={id}>{name}</option>))}
-            </select> */}
 
               <label className="script-label">{t("select_type")}</label>
               <div className="form-check form-check-inline type-check">

@@ -135,7 +135,7 @@ const Dashboard = () => {
                         <div className="details-links">
                           <h3 className="title">{t("links")}</h3>
                           <div className="link">
-                            <a href={`http://${useful_links[0].link}`} target="_blank" rel="noopener noreferrer">{useful_links[0].link}</a>
+                            <a href={`http://${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
                           </div>
                           {/* <input type="text" defaultValue={useful_links[0].link} /> */}
                         </div>
@@ -203,7 +203,7 @@ const Dashboard = () => {
                         <div className="details-links">
                           <h3 className="title">{t("links")}</h3>
                           <div className="link">
-                            <a href={`http://${useful_links[0].link}`} target="_blank" rel="noopener noreferrer">{useful_links[0].link}</a>
+                            <a href={`http://${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
                           </div>
                           {/* <input type="text" defaultValue={useful_links[0].link} /> */}
                         </div>

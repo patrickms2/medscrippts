@@ -10,8 +10,11 @@ import { useAuthContext } from "../context/AuthContext";
 import swal from "sweetalert";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
+import { Modal } from "react-bootstrap";
+import ModalLoader from "../components/Common/ModalLoader";
 
 const MagicLogin = () => {
+  const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(false);
   const { t } = useTranslation()
   const { googleSignin, API } = useAuthContext()
@@ -33,7 +36,6 @@ const MagicLogin = () => {
       navigate("/")
     } catch (err) {
       setLoading(false)
-      console.log(err.response.data)
       swal(err.response.data.message, "", "error");
     }
   };
@@ -45,45 +47,53 @@ const MagicLogin = () => {
       google_id: res.profileObj.googleId
     }
     try {
+      setShow(true)
       const newRes = await googleSignin(data)
-      swal(newRes.message, "", "success");
+      await axios.get(`${API}/sync-data/${newRes.data.id}`)
+      setShow(false)
       localStorage.setItem("showReferFriend", true)
       navigate("/")
     } catch (err) {
-      console.log(err.response)
+      swal(err.response.data.message, "", "error");
     }
   }
   const handleFailure = (res) => {
     console.log(res)
   }
-  return <div className="signin-area">
-    <div className="sign-in-box">
-      <div className="sign-in-top text-center">
-        <img className='logo' src={logo} alt="logo" />
-        <p className='sub-title'>{t("welcome_to")}</p>
-      </div>
-      <div className="form-area">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="mb-5">
-            <label htmlFor="email" className="form-label">{t("email_address")}</label>
-            <input type="email" className="form-control" id="email" {...register("email")} required />
+  return (
+    <>
+      <div className="signin-area">
+        <div className="sign-in-box">
+          <div className="sign-in-top text-center">
+            <img className='logo' src={logo} alt="logo" />
+            <p className='sub-title'>{t("welcome_to")}</p>
           </div>
-          <button type="submit" className="login-btn">
-            {t("sign_in")}
-            {loading && <img src={spinner} alt="spinner" />}
+          <div className="form-area">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-5">
+                <label htmlFor="email" className="form-label">{t("email_address")}</label>
+                <input type="email" className="form-control" id="email" {...register("email")} required />
+              </div>
+              <button type="submit" className="login-btn">
+                {t("sign_in")}
+                {loading && <img src={spinner} alt="spinner" />}
+              </button>
+            </form>
 
-          </button>
-        </form>
-
-        <p className='text-center my-3'>{t("or")}</p>
-
-        <GoogleLogin buttonText={t("continue_with_google")} onSuccess={handleSucess}
-          onFailure={handleFailure} clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} className='continue-google' />
-        <p className='text-center mt-3 account'>{t("dont_you_have_account")}
-          <span onClick={() => navigate('/signup')}> {t("signup")}</span> </p>
+            <p className='text-center my-3'>{t("or")}</p>
+            <GoogleLogin buttonText={t("continue_with_google")} onSuccess={handleSucess}
+              onFailure={handleFailure} clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID} className='continue-google' />
+            <p className='text-center mt-3 account'>{t("dont_you_have_account")}
+              <span onClick={() => navigate('/signup')}> {t("signup")}</span> </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>;
+      <Modal show={show} centered>
+        <Modal.Body>
+          <ModalLoader />
+        </Modal.Body>
+      </Modal>
+    </>)
 };
 
 export default MagicLogin;

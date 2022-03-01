@@ -6,14 +6,16 @@ import { FaMinus, FaPlus, FaTimes } from "react-icons/fa";
 import swal from "sweetalert";
 
 import { useAuthContext } from "../../context/AuthContext";
-
+import spinner from '../../assets/images/spinner.svg';
 const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow, getPackages }) => {
   const { t } = useTranslation()
+  const [isLoading, setIsLoading] = useState(false)
   const [emails, setEmails] = useState({});
   const [count, setCount] = useState(1);
-  const { API } = useAuthContext()
+  const { API } = useAuthContext();
   const handleSubmit = async (e) => {
     e.preventDefault()
+    setIsLoading(true)
     const propertyValues = Object.values(emails);
 
     const formData = new FormData()
@@ -22,6 +24,7 @@ const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow, getPackag
     }
     try {
       const res = await axios.post(`${API}/refer-friend`, formData)
+      setIsLoading(false)
       getPackages()
       closeInviteModal()
       const isRefeerFriend = localStorage.getItem("showReferFriend")
@@ -31,6 +34,7 @@ const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow, getPackag
       localStorage.removeItem("showReferFriend")
       swal(res.data.message, "", "success");
     } catch (err) {
+      setIsLoading(false)
       closeInviteModal()
       localStorage.removeItem("showReferFriend")
       setCount(1)
@@ -70,7 +74,10 @@ const ReferFriends = ({ inviteModal, closeInviteModal, membershipShow, getPackag
           {count > 1 && <span className="plus-btn" onClick={handleDecrease}><FaMinus /></span>}
         </div>
         <div className="mt-4 mb-2">
-          <button className="change-password">{t("invite")}</button>
+          <button className="change-password">
+            {t("invite")}
+            {isLoading && <img src={spinner} alt="spinner" />}
+          </button>
         </div>
       </form>
     </Modal.Body>

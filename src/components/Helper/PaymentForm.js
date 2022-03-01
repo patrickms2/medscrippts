@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import ModalLoader from '../Common/ModalLoader';
 import { useAuthContext } from '../../context/AuthContext';
 
-const PaymentForm = ({ selectedPackage, membershipClose }) => {
+const PaymentForm = ({ selectedPackage, membershipClose, getRemainingDays, checkMembershipFun }) => {
   const { t } = useTranslation()
   const { API } = useAuthContext()
   const [loading, setLoading] = useState(false);
@@ -38,23 +38,33 @@ const PaymentForm = ({ selectedPackage, membershipClose }) => {
           swal("Already a pro member!", "", "warning");
         } else {
           const { id } = paymentMethod
-          const response = await axios.post(`${API}/payments/pay`, {
-            value: selectedPackage.price,
-            currency: "usd",
-            payment_platform: 1,
-            package_id: selectedPackage.id,
-            payment_method: id
-          })
           try {
-            const createMembership = await axios.post(`${API}/create-membership`, {
+            const response = await axios.post(`${API}/subscribe`, {
+              value: selectedPackage.price,
+              currency: "usd",
+              payment_platform: 1,
               package_id: selectedPackage.id,
-              txn: response.data.data.txn,
-              store: "stripe"
+              payment_method: id,
+              plan_id: selectedPackage.plan_id
             })
-            setLoading(false)
-            membershipClose()
-            swal(createMembership.data.message, "", "success");
-            window.location.reload(false);
+            try {
+              const createMembership = await axios.post(`${API}/create-membership`, {
+                package_id: selectedPackage.id,
+                txn: response.data.data.txn,
+                paid_amount: response.data.data.amount,
+                store: "stripe",
+                payment_intent: response.data.data.payment_intent
+              })
+              setLoading(false)
+              membershipClose()
+              checkMembershipFun()
+              getRemainingDays()
+              swal(createMembership.data.message, "", "success");
+            } catch (err) {
+              setLoading(false)
+              membershipClose()
+              swal(err.response.message, "", "error");
+            }
           } catch (err) {
             setLoading(false)
             membershipClose()

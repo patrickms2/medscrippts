@@ -12,7 +12,7 @@ import editIcon from '../../assets/images/icons/edit.png';
 import editColor from '../../assets/images/icons/edit-color.svg';
 import { useAuthContext } from "../../context/AuthContext";
 
-const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowChangeImage }) => {
+const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowChangeImage, cancleMemberShip, isButtonShow, isMember }) => {
   const { t } = useTranslation()
   const [dataInCSV, setDataInCSV] = useState("");
   const { API } = useAuthContext()
@@ -29,6 +29,8 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
       swal(res.message, "", "error")
     }
   }
+
+
   useEffect(() => {
     axios.get(`${API}/export-script`, {
       responseType: 'blob',
@@ -37,6 +39,7 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
         setDataInCSV(URL.createObjectURL(res.data))
       })
   }, []);
+
 
 
   return (
@@ -53,7 +56,7 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
         </div>
         <div className="left">
           <h2 className="status" className="mb-0">{t("account_status")}</h2>
-          <span className="status-title">{t("active")}</span>
+          <span className="status-title">{isMember ? t("active") : 'trail'}</span>
         </div>
 
       </Modal.Header>
@@ -113,6 +116,10 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
               <CgArrowRight className="icon" />
               <a href={dataInCSV} download className="span">{t("download_csv")}</a>
             </div>
+            {isButtonShow && <div onClick={cancleMemberShip} className=" single-btns">
+              <CgArrowRight className="icon" />
+              <span className="span"> Cancel Auto Renewal</span>
+            </div>}
             <div className="text-center single-btns">
               <button type="submit">{t("save_changes")}</button>
             </div>
@@ -127,4 +134,4 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
   )
 }
 
-export default ChangeAccount
+export default ChangeAccount;

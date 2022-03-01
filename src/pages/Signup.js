@@ -1,51 +1,36 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaEyeSlash, FaEye } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 import ModalVideo from 'react-modal-video'
 
 import logo from '../assets/images/logo.png';
+import spinner from '../assets/images/spinner.svg';
 import { useAuthContext } from "../context/AuthContext";
 
 const Signup = () => {
+  const [loading, setLoading] = useState(false);
   const { t } = useTranslation()
   const { API } = useAuthContext()
-  const [userId, setUserId] = useState("")
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConPassword, setShowConPassword] = useState(false)
   const { signup } = useAuthContext()
   const navigate = useNavigate();
   const { register, handleSubmit } = useForm();
   const [isOpen, setOpen] = useState(false)
 
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
   const onSubmit = async (data) => {
-
+    setLoading(true)
     const res = await signup(data)
     if (res.success) {
-      setUserId(res.data.id)
-      handleShow()
+      axios.get(`${API}/sync-data/${res.data.id}`)
+      setLoading(false)
+      navigate("/signin")
     } else {
+      setLoading(false)
       swal(res.errors[Object.keys(res.errors)[0]][0], "", "error");
     }
   };
-  const syncPreScripts = () => {
-    axios.get(`${API}/sync-data/${userId}`)
-    navigate("/signin")
-  }
-  const handlePassword = (e) => {
-    setShowPassword(!showPassword)
-  }
-  const handleConPassword = (e) => {
-    setShowConPassword(!showConPassword)
-  }
   return (
     <>
       <div className="signin-area">
@@ -64,7 +49,9 @@ const Signup = () => {
                 <label htmlFor="email" className="form-label">{t("email_address")}</label>
                 <input type="email" className="form-control" id="email" required {...register("email")} />
               </div>
-              <button type="submit" className="login-btn">{t("signup")}</button>
+              <button type="submit" className="login-btn">{t("signup")}
+                {loading && <img src={spinner} alt="spinner" />}
+              </button>
             </form>
             <p className='text-center mt-3 account'>{t("have_an_account?")} <span onClick={() => navigate('/signin')}> {t("sign_in")}</span> </p>
             <p className='text-center how-to' onClick={() => setOpen(true)}> {t("how_to")}</p>
@@ -72,12 +59,6 @@ const Signup = () => {
         </div>
       </div>
       <ModalVideo channel='youtube' autoplay isOpen={isOpen} videoId="L61p2uyiMSo" onClose={() => setOpen(false)} />
-      <Modal show={show} centered>
-        <Modal.Body className="text-center">
-          <p>{t("sync_premade_scripts!")}</p>
-          <Button onClick={syncPreScripts}>OK</Button>
-        </Modal.Body>
-      </Modal>
     </>
   )
 }
