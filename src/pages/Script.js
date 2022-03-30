@@ -84,7 +84,8 @@ const Script = () => {
     const res = await addScript(formData)
     if (res.success) {
       setLoading(false)
-      swal(res.message, "", "success");
+      console.log(res)
+      swal("Script create successful", "", "success");
       getAllScripts()
       navigate("/")
     } else {
