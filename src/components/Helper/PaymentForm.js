@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next';
 
 import ModalLoader from '../Common/ModalLoader';
 import { useAuthContext } from '../../context/AuthContext';
+import { useCategoryContext } from '../../context/CategoryContext';
 
 const PaymentForm = ({ selectedPackage, membershipClose, getRemainingDays, checkMembershipFun }) => {
+  const { getAllScripts } = useCategoryContext()
   const { t } = useTranslation()
   const { API } = useAuthContext()
   const [loading, setLoading] = useState(false);
@@ -56,6 +58,7 @@ const PaymentForm = ({ selectedPackage, membershipClose, getRemainingDays, check
                 payment_intent: response.data.data.payment_intent
               })
               setLoading(false)
+              getAllScripts()
               membershipClose()
               checkMembershipFun()
               getRemainingDays()
