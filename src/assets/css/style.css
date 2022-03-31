@@ -210,10 +210,10 @@ button,input {
 }
 .select-category .css-14el2xx-placeholder {
   font-size: 14px;
-  font-weight: 400;
   color: rgba(53, 54, 79, 0.62);
+  font-family: sfprodisplay , 'sans-serif';
+  font-weight: 600;
 }
-
 .sidebar .sidebar-top .categories .blur-section{
   display: inline-block;
   text-transform: capitalize;
@@ -250,9 +250,10 @@ button,input {
 .search-terms {
   width: 100%;
   margin-bottom: 20px;
-  padding: 13px;
+  padding: 13px 10px;
   border-bottom: 1px solid #E4E4E4;;
   background-color: transparent;
+  font-family: sfprodisplay , 'sans-serif';
 }
 
 .search-terms .small-search{

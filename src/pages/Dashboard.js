@@ -1,6 +1,6 @@
 import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import swal from "sweetalert";
@@ -15,22 +15,6 @@ import Loader from "../components/Common/Loader";
 import NoDataFound from "./NoDataFound";
 import ShareScript from "../components/Helper/ShareScript";
 
-function SampleNextArrow(props) {
-  const { className, onClick } = props;
-  return (
-    <button className={className} onClick={onClick}>
-      <BsArrowRight />
-    </button>
-  );
-}
-function SamplePrevArrow(props) {
-  const { className, onClick } = props;
-  return (
-    <button className={className} onClick={onClick} >
-      <BsArrowLeft />
-    </button>
-  );
-}
 const Dashboard = () => {
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
@@ -47,17 +31,7 @@ const Dashboard = () => {
   const handleDeletClose = () => setDeletShow(false);
   const handleDeletShow = () => setDeletShow(true);
 
-  const settingsTwo = {
-    dots: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    draggable: false,
-    prevArrow: <SamplePrevArrow />,
-    nextArrow: <SampleNextArrow />,
-  };
   const handleDeleteScript = async (slug) => {
-
     const res = await deleteScript(slug)
     if (res.success) {
       swal(res.message, "", "success");
@@ -72,6 +46,10 @@ const Dashboard = () => {
       e.target.classList.toggle("blur")
     }
   }
+  useEffect(() => {
+    getAllScripts()
+  }, [])
+
 
   if (!scripts) {
     return <Loader />
