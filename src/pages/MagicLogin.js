@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Magic } from 'magic-sdk';
 import GoogleLogin from 'react-google-login';
 
-import logo from '../assets/images/logo.png';
+import logo from '../assets/images/logo.svg';
 import spinner from '../assets/images/spinner.svg';
 import { useAuthContext } from "../context/AuthContext";
 import swal from "sweetalert";

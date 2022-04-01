@@ -8,7 +8,7 @@ import { FaChevronRight } from 'react-icons/fa';
 import moment from 'moment';
 import axios from 'axios';
 
-import logo from '../../assets/images/logo-small.png';
+import logo from '../../assets/images/logo.png';
 import logoutIcon from '../../assets/images/icons/logout.svg';
 import pred from '../../assets/images/icons/pred.png';
 import study from '../../assets/images/icons/study.svg';
