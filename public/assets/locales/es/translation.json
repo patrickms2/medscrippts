@@ -137,5 +137,7 @@
   "filter": "filtrar",
   "select_type": "seleccione tipo",
   "adult": "adulto",
-  "wait_text": "Espere a que se sincronicen los scripts prefabricados..."
+  "wait_text": "Espere a que se sincronicen los scripts prefabricados...",
+  "your_email": "Tu correo electrónico",
+  "your_name": "Su nombre"
 }

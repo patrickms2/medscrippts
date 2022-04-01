@@ -137,5 +137,7 @@
   "filter": "filter",
   "select_type": "Select type",
   "adult": "Adult",
-  "wait_text": "Please Wait for sync premade scripts ..."
+  "wait_text": "Please Wait for sync premade scripts ...",
+  "your_email": "Your email",
+  "your_name": "Your name"
 }

@@ -90,7 +90,7 @@ button,input {
 .signin-area .sub-title {
   font-size: 25px;
   font-weight: 600;
-  margin-top: 28px;
+  margin-top: 14px;
   margin-bottom: 45px;
 }
 .signin-area .sign-in-box{
@@ -430,6 +430,8 @@ button,input {
 }
 .header-right svg{
   cursor: pointer;
+  position: relative;
+  top: -8px;
 }
 .header-right .user-box .user-img{
   width: 50px;

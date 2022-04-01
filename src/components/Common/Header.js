@@ -98,7 +98,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     if (days <= 0) {
       setShowMembership(true)
     }
-    if (localStorage.getItem("showReferFriend")) {
+    if (localStorage.getItem("showReferFriend") && days > 0) {
       setInviteModal(true)
     }
   }

@@ -70,9 +70,9 @@ const MagicLogin = () => {
           </div>
           <div className="form-area">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-5">
+              <div className="mb-4">
                 <label htmlFor="email" className="form-label">{t("email_address")}</label>
-                <input type="email" className="form-control" id="email" {...register("email")} required />
+                <input type="email" placeholder={t("your_email")} className="form-control" id="email" {...register("email")} required />
               </div>
               <button type="submit" className="login-btn">
                 {t("sign_in")}

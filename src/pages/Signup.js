@@ -43,11 +43,11 @@ const Signup = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">{t("name")}</label>
-                <input type="text" className="form-control" id="name" {...register("name")} required />
+                <input type="text" placeholder={t("your_name")} className="form-control" id="name" {...register("name")} required />
               </div>
-              <div className="mb-5">
+              <div className="mb-4">
                 <label htmlFor="email" className="form-label">{t("email_address")}</label>
-                <input type="email" className="form-control" id="email" required {...register("email")} />
+                <input type="email" placeholder={t("your_email")} className="form-control" id="email" required {...register("email")} />
               </div>
               <button type="submit" className="login-btn">{t("signup")}
                 {loading && <img src={spinner} alt="spinner" />}
