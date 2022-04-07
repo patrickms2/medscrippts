@@ -3,18 +3,20 @@ import { useState } from "react";
 import { Modal } from "react-bootstrap"
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { FaTimes } from "react-icons/fa"
+import { FaTimes } from "react-icons/fa";
 
+import spinner from '../../assets/images/spinner.svg';
 import { useAuthContext } from "../../context/AuthContext";
 import { useCategoryContext } from "../../context/CategoryContext";
 
 const AddCategory = ({ addShow, handleAddClose }) => {
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
   const { API } = useAuthContext()
   const { register, handleSubmit, reset } = useForm();
   const { getAllCategories } = useCategoryContext();
   const [selectedFiles, setSelectedFiles] = useState([])
-  const [isSelected, setIsSelected] = useState(false)
+  const [isSelected, setIsSelected] = useState("")
 
   const handleImageChange = (e) => {
     setSelectedFiles([])
@@ -35,6 +37,7 @@ const AddCategory = ({ addShow, handleAddClose }) => {
     ))
   }
   const addCategory = (data) => {
+    setLoading(true)
     const formData = new FormData()
 
     formData.append("name", data.name)
@@ -43,11 +46,15 @@ const AddCategory = ({ addShow, handleAddClose }) => {
     axios.post(`${API}/insert-category`, formData)
       .then(res => {
         if (res.data.success) {
+          setLoading(false)
           getAllCategories()
           handleAddClose()
           setSelectedFiles([])
           reset()
         }
+      })
+      .catch(err => {
+        setLoading(false)
       })
   }
   return (
@@ -67,7 +74,7 @@ const AddCategory = ({ addShow, handleAddClose }) => {
             <input onChange={handleImageChange} type="file" id="icon" className="file-input" />
             {renderPhotos(selectedFiles)}
           </div>
-          <button className="add">{t("add")}</button>
+          <button className="add">{t("add")} {loading && <img src={spinner} alt="spinner" />}</button>
         </form>
       </Modal.Body>
       <div className="cross-icon" onClick={handleAddClose}>

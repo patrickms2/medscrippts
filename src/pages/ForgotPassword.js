@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
 
-import logo from '../assets/images/logo.svg';
+import logo from '../assets/images/logo.png';
 import { useAuthContext } from "../context/AuthContext";
 
 const ForgotPassword = () => {

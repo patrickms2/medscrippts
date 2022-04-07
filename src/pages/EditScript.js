@@ -96,6 +96,7 @@ const EditScript = () => {
     formData.append("isAdult", isAdult)
 
     const res = await editScript(formData, params.slug)
+    console.log(res)
     if (res.success) {
       getAllScripts()
       swal(res.message, "", "success");

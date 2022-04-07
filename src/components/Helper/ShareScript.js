@@ -19,7 +19,7 @@ const ShareScript = ({ shareModal, closeShareModal, shareSlug }) => {
       swal(res.data.message, "", "success");
     } catch (err) {
       closeShareModal()
-      swal(err.response.data.message, "", "error");
+      swal('We did not find this user so we invited them to the app', "", "error");
     }
 
   }

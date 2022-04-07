@@ -7,7 +7,6 @@ import Dashboard from "./pages/Dashboard";
 import EditScript from "./pages/EditScript";
 import Error from "./pages/Error";
 import ForgotPassword from "./pages/ForgotPassword";
-import MagicLogin from "./pages/MagicLogin";
 import ResetPassword from "./pages/ResetPassword";
 import Script from "./pages/Script";
 import Signin from "./pages/Signin";

@@ -114,23 +114,23 @@ const Script = () => {
               </div>
               <div>
                 <label className="script-label" htmlFor="pathophysiology">{t("pathophysiology")}</label>
-                <textarea className="script-textarea" id="pathophysiology" {...register("pathophysiology")} required onInput={autoGrow} placeholder={`${t("write")} ${t("pathophysiology")}`}></textarea>
+                <textarea className="script-textarea" id="pathophysiology" {...register("pathophysiology")} onInput={autoGrow} placeholder={`${t("write")} ${t("pathophysiology")}`}></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="epidemiology">{t("epidemiology")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="epidemiology" {...register("epidemiology")} required placeholder={`${t("write")} ${t("epidemiology")}`}></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="epidemiology" {...register("epidemiology")} placeholder={`${t("write")} ${t("epidemiology")}`}></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="symptoms">{t("sign_symptoms")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="symptoms" {...register("symptoms")} required placeholder={`${t("write")} ${t("sign_symptoms")}`}></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="symptoms" {...register("symptoms")} placeholder={`${t("write")} ${t("sign_symptoms")}`}></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="diagnostics">{t("testing_diagnostics")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="diagnostics" {...register("diagnostics")} required placeholder={`${t("write")} ${t("testing_diagnostics")}`}></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="diagnostics" {...register("diagnostics")} placeholder={`${t("write")} ${t("testing_diagnostics")}`}></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="treatments">{t("treatments")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="treatments" {...register("treatments")} required placeholder={`${t("write")} ${t("treatments")}`}></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="treatments" {...register("treatments")} placeholder={`${t("write")} ${t("treatments")}`}></textarea>
               </div>
             </Col>
 
@@ -152,7 +152,7 @@ const Script = () => {
               </div>
 
               <label className="script-label" htmlFor="useful_link1">{t("useful_links")}</label>
-              {[...Array(count).keys()].map((item) => <input key={item} className="script-form color" type="text" name={item} required value={links.item} onChange={handleChange} placeholder={`https://link${item}.com`} />)}
+              {[...Array(count).keys()].map((item) => <input key={item} className="script-form color" type="text" name={item} value={links.item} onChange={handleChange} placeholder={`https://link${item}.com`} />)}
 
               <div className="d-flex mb-3">
                 <span className="plus-btn me-2" onClick={handleClick}><FaPlus /></span>

@@ -56,7 +56,7 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
         </div>
         <div className="left">
           <h2 className="status mb-0">{t("account_status")}</h2>
-          <span className="status-title">{isMember ? t("active") : 'trail'}</span>
+          <span className="status-title">{isMember ? t("active") : 'trial'}</span>
         </div>
 
       </Modal.Header>

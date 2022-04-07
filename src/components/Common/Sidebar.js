@@ -8,7 +8,7 @@ import { FaChevronRight } from 'react-icons/fa';
 import moment from 'moment';
 import axios from 'axios';
 
-import logo from '../../assets/images/logo.png';
+import logo from '../../assets/images/logo-small2.png';
 import logoutIcon from '../../assets/images/icons/logout.svg';
 import pred from '../../assets/images/icons/pred.png';
 import study from '../../assets/images/icons/study.svg';
@@ -35,7 +35,6 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
   const handleClick = async () => {
     const res = await logout()
     if (res.success) {
-      swal(res.message, "", "success");
       navigate("/signin")
     } else {
       localStorage.removeItem('authToken')
@@ -145,9 +144,9 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
     <>
       <div className={`sidebar ${showLeftSidebar ? "show-sidebar" : ""}`}>
         <div className="sidebar-top">
-          <div className="logo text-center">
+          <div className="logo">
             <NavLink to="/">
-              <img src={logo} alt="logo" />
+              <img src={logo} alt="logo" style={{ height: "50px" }} />
             </NavLink>
           </div>
           <div className="categories">

@@ -59,7 +59,6 @@ const PaymentForm = ({ selectedPackage, membershipClose, getRemainingDays, check
               })
               setLoading(false)
               getAllScripts()
-              membershipClose()
               checkMembershipFun()
               getRemainingDays()
               swal(createMembership.data.message, "", "success");
@@ -75,7 +74,6 @@ const PaymentForm = ({ selectedPackage, membershipClose, getRemainingDays, check
         }
       } catch (err) {
         setLoading(false)
-        membershipClose()
         swal(err.response.data.message, "", "error");
       }
     }

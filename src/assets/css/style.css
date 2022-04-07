@@ -182,10 +182,9 @@ button,input {
     display: block;
   }
 }
-
 .sidebar .sidebar-top .logo{
   margin-bottom: 25px;
-  /* margin-top: 15px; */
+  margin-left: 27px;
 }
 .sidebar .sidebar-top .categories{
   margin-left: 26px;
@@ -208,11 +207,16 @@ button,input {
 .select-category .css-1pahdxg-control:hover {
   border-color: #E4E4E4;
 }
+.select-category .css-319lph-ValueContainer {
+  padding: 0;
+}
 .select-category .css-14el2xx-placeholder {
   font-size: 14px;
   color: rgba(53, 54, 79, 0.62);
   font-family: sfprodisplay , 'sans-serif';
   font-weight: 600;
+  margin-left: 0;
+  margin-right: 0;
 }
 .sidebar .sidebar-top .categories .blur-section{
   display: inline-block;
@@ -229,6 +233,7 @@ button,input {
   display: block;
   margin-bottom: 20px;
   background-color: transparent;
+  padding: 0;
 }
 .sidebar .sidebar-top .categories .compare-btn{
   font-size: 15px;
@@ -250,7 +255,7 @@ button,input {
 .search-terms {
   width: 100%;
   margin-bottom: 20px;
-  padding: 13px 10px;
+  padding: 13px 0px;
   border-bottom: 1px solid #E4E4E4;;
   background-color: transparent;
   font-family: sfprodisplay , 'sans-serif';
@@ -286,6 +291,7 @@ button,input {
   margin-left: 25px;
   color: #808191;
   background-color: transparent;
+  padding: 0;
 }
 .logout-btn img {
   margin-right: 16px;
@@ -353,65 +359,71 @@ button,input {
   background: linear-gradient(180deg, #39A8FE 0%, #3981F4 100%);
   box-shadow: 0px 7px 40px rgba(37, 94, 214, 0.26);
 }
+.header-right .dropdown-menu{
+  padding: 0;
+  border-radius: 30px;
+  border: none;
+}
 .header-right .notification-box{
+  margin-right: 12px;
+  background: rgba(239, 239, 239, 0.52);
+  padding: 10px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 50px;
-  height: 50px;
   border-radius: 50%;
-  margin-right: 12px;
-  background-color: rgba(239, 239, 239, 0.52);
   cursor: pointer;
 }
-.header-right .notification-box .notification-pannel{
-  position: absolute;
-  width: 345px;
-  top: 170%;
-  border-radius: 30px;
-  padding: 32px 20px 25px 20px;
-  box-shadow: 0px 6px 30px rgba(230, 239, 243, 0.8);
-  background-color: var(--white);
-}
-.header-right .notification-box .notification-pannel.toggled{
+.header-right .notification-box.dropdown-toggle::after {
   display: none;
 }
-.header-right .notification-box .notification-pannel .title{
+.header-right .user-box.dropdown-toggle::after {
+  display: none;
+}
+.header-right .dropdown .notification-pannel{
+  width: 345px;
+  border-radius: 30px;
+  box-shadow: 0px 6px 30px rgba(230, 239, 243, 0.8);
+  padding: 32px 20px 25px 20px;
+}
+.header-right .notification-pannel .title{
   font-size: 14px;
   font-weight: 500;
   text-transform: capitalize;
   margin-bottom: 24px;
 }
-.header-right .notification-box .notification-pannel .single-pannel{
+.header-right .notification-pannel .single-pannel{
   display: flex;
   align-items: flex-start;
   border-bottom: 1px solid rgba(180, 198, 235, 0.12);
   margin-bottom: 21px;
   padding-bottom: 16px;
 }
-.header-right .notification-box .notification-pannel .single-pannel:last-child{
+.header-right .notification-pannel .single-pannel:last-child{
   border-bottom: none;
   margin-bottom: 0;
   padding-bottom: 0;
 }
-.header-right .notification-box .notification-pannel .single-pannel img{
+.header-right .notification-pannel .single-pannel img{
   margin-right: 14px;
 }
-.header-right .notification-box .notification-pannel .single-pannel .text{
+.header-right .notification-pannel .single-pannel .text{
   flex: 1;
 }
-.header-right .notification-box .notification-pannel .single-pannel .text h4{
+.header-right .notification-pannel .single-pannel .text h4{
   display: flex;
   justify-content: space-between;
   font-size: 14px;
   font-weight: 500;
 }
-.header-right .notification-box .notification-pannel .single-pannel .text p{
+.header-right .notification-pannel .single-pannel .text p{
   font-size: 12px;
   margin-right: 10px;
   color: rgba(53, 54, 79, 0.62);;
 }
-.header-right .notification-box .notification-pannel .single-pannel .text h4 span{
+.header-right .notification-pannel .single-pannel .text h4 span{
   font-size: 9px;
   font-weight: 400;
   color: rgba(53, 54, 79, 0.56);
@@ -428,8 +440,7 @@ button,input {
   border-radius: 50%;
   background: linear-gradient(180deg, #F82A8A 0%, #FF9320 100%);
 }
-.header-right svg{
-  cursor: pointer;
+.header-right .caret{
   position: relative;
   top: -8px;
 }
@@ -453,23 +464,23 @@ button,input {
   text-transform: capitalize;
   color: rgba(53, 54, 79, 0.62);
 }
-.header-right .user-box .user-settings{
-  position: absolute;
+.header-right .user-settings{
+  width: 303px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: rgba(254, 134, 45, 0.87);
-  border-radius: 20px;
-  top: 170%;
-  right: 20px;
-  width: 303px;
   min-height: 199px;
   padding: 30px;
+  background: rgba(254, 134, 45,.87);
+  border-radius: 20px;
+}
+.header-right .user-dropdown{
+  background-color: transparent;
 }
 .header-right .user-box .user-settings.toggled{
   display: none;
 }
-.header-right .user-box .user-settings .bottom button{
+.header-right .user-settings .bottom button{
   width: 100%;
   font-size: 15px;
   font-weight: 600;
@@ -478,14 +489,14 @@ button,input {
   color: #FE862D;
   background-color: #ffffff;
 }
-.header-right .user-box .user-settings .top .setting{
+.header-right  .user-settings .top .setting{
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 25px;
   cursor: pointer;
 }
-.header-right .user-box .user-settings .top .setting .img-box{
+.header-right .user-settings .top .setting .img-box{
   display: flex;
   align-items: center;
   justify-content: center;
@@ -495,7 +506,7 @@ button,input {
   margin-right: 17px;
   background-color: #ffffff;
 }
-.header-right .user-box .user-settings .top .setting .left span{
+.header-right .user-settings .top .setting .left span{
   flex: 1;
   display: inline-block;
   text-transform: capitalize;
@@ -503,10 +514,10 @@ button,input {
   font-weight: 500;
   color: #ffffff;
 }
-.header-right .user-box .user-settings .top .setting .icon{
+.header-right  .user-settings .top .setting .icon{
   color: #ffffff;
 }
-.header-right .user-box .user-settings .top .setting .left{
+.header-right .user-settings .top .setting .left{
   display: flex;
   align-items: center;
 }
@@ -518,6 +529,7 @@ button,input {
 .header-right .user-box{
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 @media (min-width: 1200px) {
   .header-area {

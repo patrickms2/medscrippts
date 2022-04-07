@@ -5,7 +5,7 @@ import { FaEyeSlash, FaEye } from "react-icons/fa";
 import swal from 'sweetalert';
 import { useTranslation } from "react-i18next";
 
-import logo from '../assets/images/logo.svg';
+import logo from '../assets/images/logo.png';
 import { useAuthContext } from "../context/AuthContext";
 const ResetPassword = () => {
   const { t } = useTranslation()

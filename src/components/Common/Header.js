@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Accordion, Col, Container, Modal, Row } from "react-bootstrap";
+import { Accordion, Col, Container, Dropdown, Modal, Row } from "react-bootstrap";
 import { FaChevronDown, FaChevronRight, FaPlus, FaTimes } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import swal from 'sweetalert';
@@ -32,8 +32,6 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const navigate = useNavigate();
   const [remainingDays, setRemainingDays] = useState('')
   const [languages, setLanguages] = useState([])
-  const [showSetting, setShowSetting] = useState(false);
-  const [showNotification, setShowNotification] = useState(false);
   const [showAccount, setShowAccount] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [showTerms, setShowTerms] = useState(false);
@@ -53,9 +51,7 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const handleCloseChangeImage = () => setShowChangeImage(false)
   const handleShowChangeImage = () => setShowChangeImage(true)
   const helpsClose = () => setShowHelps(false)
-  const helpsShow = () => setShowHelps(true)
   const termsClose = () => setShowTerms(false)
-  const termsShow = () => setShowTerms(true)
   const membershipClose = () => setShowMembership(false)
   const membershipShow = () => setShowMembership(true)
   const accountClose = () => setShowAccount(false);
@@ -66,7 +62,6 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
   const handleClick = async () => {
     const res = await logout()
     if (res.success) {
-      swal(res.message, "", "success");
       navigate("/signin")
     } else {
       localStorage.removeItem('authToken')
@@ -204,84 +199,71 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
             <Col xs={10} sm={9} md={8}>
               <div className="header-right">
                 <button onClick={() => navigate("/script")} className="new-btn">{t("new_script")}</button>
-                <div onClick={() => {
-                  setShowSetting(false)
-                  setShowNotification(!showNotification)
-                }} className="notification-box position-relative">
-                  <Notifications showNotification={showNotification} />
-                </div>
-                <div className="user-box position-relative">
-                  <img className="user-img" src={authUser?.profile_pic ? authUser.profile_pic : user} alt="user" />
-                  <div className="user-info">
-                    <h4 className="mb-0">{authUser?.name}</h4>
-                    <p className="mb-0">{t("user")}</p>
-                  </div>
-                  <FaChevronDown onClick={() => {
-                    setShowNotification(false)
-                    setShowSetting(!showSetting)
-                  }} />
-                  <div className={`user-settings  ${showSetting ? "" : "toggled"}`}>
-                    <div className="top">
-                      <div onClick={accountShow} className="setting">
-                        <div className="left">
-                          <div className="img-box">
-                            <img src={userIcon} alt="user" />
+                <Notifications />
+                <Dropdown drop="down">
+                  <Dropdown.Toggle as='div' className="user-box">
+                    <img className="user-img" src={authUser?.profile_pic ? authUser.profile_pic : user} alt="user" />
+                    <div className="user-info">
+                      <h4 className="mb-0">{authUser?.name}</h4>
+                      <p className="mb-0">{t("user")}</p>
+                    </div>
+                    <FaChevronDown className="caret" />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="user-dropdown">
+                    <div className={`user-settings`}>
+                      <div className="top">
+                        <div onClick={accountShow} className="setting">
+                          <div className="left">
+                            <div className="img-box">
+                              <img src={userIcon} alt="user" />
+                            </div>
+                            <span>{t("account")}</span>
                           </div>
-                          <span>{t("account")}</span>
+                          <FaChevronRight className="icon" />
                         </div>
-                        <FaChevronRight className="icon" />
+                        <div onClick={membershipShow} className="setting">
+                          <div className="left">
+                            <div className="img-box">
+                              <img src={memberIcon} alt="user" />
+                            </div>
+                            <span>{t("membership")}</span>
+                          </div>
+                          <FaChevronRight className="icon" />
+                        </div>
+                        <a href="https://docs.medscrippts.com/" target="_blank" className="setting">
+                          <div className="left">
+                            <div className="img-box">
+                              <img src={helpIcon} alt="user" />
+                            </div>
+                            <span>{t("help_support")}</span>
+                          </div>
+                          <FaChevronRight className="icon" />
+                        </a>
+                        <a href="https://docs.medscrippts.com/terms" target="_blank" className="setting">
+                          <div className="left">
+                            <div className="img-box">
+                              <img src={termsIcon} alt="user" />
+                            </div>
+                            <span>{t("terms_condition")}</span>
+                          </div>
+                          <FaChevronRight className="icon" />
+                        </a>
+                        <div onClick={settingsShow} className="setting">
+                          <div className="left">
+                            <div className="img-box">
+                              <img src={settingIcon} alt="user" />
+                            </div>
+                            <span>{t("settings")}</span>
+                          </div>
+                          <FaChevronRight className="icon" />
+                        </div>
                       </div>
-                      <div onClick={membershipShow} className="setting">
-                        <div className="left">
-                          <div className="img-box">
-                            <img src={memberIcon} alt="user" />
-                          </div>
-                          <span>{t("membership")}</span>
-                        </div>
-                        <FaChevronRight className="icon" />
-                      </div>
-                      <div onClick={showInviteModal} className="setting">
-                        <div className="left">
-                          <div className="img-box">
-                            <img src={inviteIcon} alt="user" />
-                          </div>
-                          <span>{t("invite_friends")}</span>
-                        </div>
-                        <FaChevronRight className="icon" />
-                      </div>
-                      <div onClick={helpsShow} className="setting">
-                        <div className="left">
-                          <div className="img-box">
-                            <img src={helpIcon} alt="user" />
-                          </div>
-                          <span>{t("help_support")}</span>
-                        </div>
-                        <FaChevronRight className="icon" />
-                      </div>
-                      <div className="setting" onClick={termsShow}>
-                        <div className="left">
-                          <div className="img-box">
-                            <img src={termsIcon} alt="user" />
-                          </div>
-                          <span>{t("terms_condition")}</span>
-                        </div>
-                        <FaChevronRight className="icon" />
-                      </div>
-                      <div onClick={settingsShow} className="setting">
-                        <div className="left">
-                          <div className="img-box">
-                            <img src={settingIcon} alt="user" />
-                          </div>
-                          <span>{t("settings")}</span>
-                        </div>
-                        <FaChevronRight className="icon" />
+                      <div className="bottom">
+                        <button onClick={handleClick}>{t("logout")}</button>
                       </div>
                     </div>
-                    <div className="bottom">
-                      <button onClick={handleClick}>{t("logout")}</button>
-                    </div>
-                  </div>
-                </div>
+                  </Dropdown.Menu>
+                </Dropdown>
               </div>
             </Col>
           </Row>
@@ -392,8 +374,6 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
       </Modal>
 
       <ReferFriends inviteModal={inviteModal} getPackages={getPackages} closeInviteModal={closeInviteModal} membershipShow={membershipShow} />
-
-      {/* <ChangePassword showPassword={showPassword} passwordClose={passwordClose} /> */}
     </>
   )
 }
