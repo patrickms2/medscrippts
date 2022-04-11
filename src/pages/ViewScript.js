@@ -70,7 +70,7 @@ const ViewScript = () => {
   if (isError) {
     return <Error height={true} />
   }
-  const { title, images, pathophysiology, symptoms, diagnostics, epidemiology, treatments, useful_links, views, created_at, slug } = script
+  const { title, images, pathophysiology, symptoms, diagnostics, epidemiology, treatments, useful_links, views, updated_at, slug } = script
   return (
     <>
       <Container fluid>
@@ -120,7 +120,7 @@ const ViewScript = () => {
               <Row>
                 <Col md={6}>
                   <button className="single-btn view">{views} <span>{t("view")}</span></button>
-                  <button className="single-btn date">{moment(created_at).format("D-M-Y")} <span>{t("last_updated")}</span></button>
+                  <button className="single-btn date">{moment(updated_at).format("DD-MM-Y")} <span>{t("last_updated")}</span></button>
                 </Col>
                 <Col md={6}>
                   <div className="text-end">

@@ -1701,3 +1701,7 @@ button,input {
 .highlight-text {
  background-color: #FFD63F;
 }
+.swal-title {
+  font-size: 23px;
+  padding: 13px 30px;
+}

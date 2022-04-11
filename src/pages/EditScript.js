@@ -102,7 +102,7 @@ const EditScript = () => {
       swal(res.message, "", "success");
       navigate("/")
     } else {
-      swal(res.message, "", "error");
+      swal(res.errors[Object.keys(res.errors)[0]][0], "", "error");
     }
   }
   const handleDeleteScript = async () => {
@@ -177,23 +177,23 @@ const EditScript = () => {
               </div>
               <div>
                 <label className="script-label" htmlFor="pathophysiology">{t("pathophysiology")}</label>
-                <textarea className="script-textarea" id="pathophysiology" {...register("pathophysiology")} required onInput={autoGrow} defaultValue={pathophysiology}></textarea>
+                <textarea className="script-textarea" id="pathophysiology" {...register("pathophysiology")} onInput={autoGrow} defaultValue={pathophysiology}></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="epidemiology">{t("epidemiology")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="epidemiology" {...register("epidemiology")} required defaultValue={epidemiology} ></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="epidemiology" {...register("epidemiology")} defaultValue={epidemiology} ></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="symptoms">{t("sign_symptoms")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="symptoms" {...register("symptoms")} required defaultValue={symptoms}></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="symptoms" {...register("symptoms")} defaultValue={symptoms}></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="diagnostics">{t("testing_diagnostics")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="diagnostics" {...register("diagnostics")} required defaultValue={diagnostics}></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="diagnostics" {...register("diagnostics")} defaultValue={diagnostics}></textarea>
               </div>
               <div>
                 <label className="script-label" htmlFor="treatments">{t("treatments")}</label>
-                <textarea className="script-textarea" onInput={autoGrow} id="treatments" {...register("treatments")} required defaultValue={treatments}></textarea>
+                <textarea className="script-textarea" onInput={autoGrow} id="treatments" {...register("treatments")} defaultValue={treatments}></textarea>
               </div>
             </Col>
             <Col md={6}>
@@ -212,7 +212,7 @@ const EditScript = () => {
 
               <label className="script-label" htmlFor="useful_link1">{t("useful_links")}</label>
               {[...Array(count).keys()].map((item) => {
-                return <input key={item} className="script-form color" type="text" required name={item} value={links[item]} onChange={handleChange} />
+                return <input key={item} className="script-form color" type="text" name={item} value={links[item]} onChange={handleChange} />
               })}
               <div className="d-flex mb-3">
                 <span className="plus-btn me-2" onClick={handleClick}><FaPlus /></span>

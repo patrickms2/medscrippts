@@ -139,5 +139,6 @@
   "adult": "Adult",
   "wait_text": "Please Wait for sync premade scripts ...",
   "your_email": "Your email",
-  "your_name": "Your name"
+  "your_name": "Your name",
+  "please_wait": "Fetching pre-made script. Please wait..."
 }

@@ -139,5 +139,6 @@
   "adult": "adulto",
   "wait_text": "Espere a que se sincronicen los scripts prefabricados...",
   "your_email": "Tu correo electrónico",
-  "your_name": "Su nombre"
+  "your_name": "Su nombre",
+  "please_wait": "Obteniendo un guión prefabricado. Espere por favor..."
 }

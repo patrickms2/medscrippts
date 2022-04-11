@@ -115,7 +115,6 @@ const Dashboard = () => {
                           <div className="link">
                             <a href={`http://${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
                           </div>
-                          {/* <input type="text" defaultValue={useful_links[0].link} /> */}
                         </div>
                         <div className="share">
                           <FaShareAlt onClick={() => {

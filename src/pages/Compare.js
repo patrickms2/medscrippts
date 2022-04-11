@@ -123,7 +123,7 @@ const Compare = () => {
                 swiper.navigation.update()
               })
             }} modules={[Navigation]} className="banner-slider">
-              {scripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
+              {scripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, updated_at, useful_links, views }) => (<SwiperSlide key={id}>
                 <div className="scripts-details">
                   <Row className="align-items-center">
                     <Col md={8}>
@@ -226,7 +226,7 @@ const Compare = () => {
                   <Row>
                     <Col md={7} className="mb-4 mb-md-0">
                       <button className="single-btn view">{views} <span>{t("view")}</span></button>
-                      <button className="single-btn date">{moment.unix(created_at).format("DD-MM-Y")} <span>{t("last_updated")}</span></button>
+                      <button className="single-btn date">{moment.unix(updated_at).format("DD-MM-Y")} <span>{t("last_updated")}</span></button>
                     </Col>
                     <Col md={5}>
                       <div className="text-end">

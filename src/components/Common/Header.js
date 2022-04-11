@@ -23,8 +23,12 @@ import HeaderSearch from "../Helper/HeaderSearch";
 import inviteIcon from '../../assets/images/icons/invite.png';
 import ReferFriends from "../Helper/ReferFriends";
 import bookIcon from '../../assets/images/icons/book.png';
+import ModalLoader from "./ModalLoader";
+import { useCategoryContext } from "../../context/CategoryContext";
 
 const Header = ({ showLeftSidebar, toggleSidebar }) => {
+  const { getAllScripts } = useCategoryContext()
+  const [loading, setLoading] = useState(false)
   const { t } = useTranslation()
   const { API } = useAuthContext()
   const authUser = JSON.parse(localStorage.getItem("authUser"));
@@ -77,14 +81,16 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
     settingsClose()
     window.location.reload(false);
   }
-  const syncPreScripts = () => {
-    axios.get(`${API}/sync-data/${authUser.id}`)
-      .then(res => {
-        if (res.data.success) {
-          settingsClose()
-          window.location.reload(false);
-        }
-      })
+  const syncPreScripts = async () => {
+    setLoading(true)
+    try {
+      await axios.get(`${API}/sync-data/${authUser.id}`)
+      getAllScripts()
+      settingsClose()
+    } catch (err) {
+      setLoading(false)
+      swal(err.data.message, "", "error");
+    }
   }
   const getRemainingDays = async () => {
     const res = await axios.get(`${API}/remaining-days`)
@@ -291,6 +297,10 @@ const Header = ({ showLeftSidebar, toggleSidebar }) => {
               <FaPlus />
             </span>
           </div>
+          {loading && <>
+            <ModalLoader />
+            <p className="text-center">{t("please_wait")}</p>
+          </>}
         </Modal.Body>
         <div className="cross-icon" onClick={settingsClose}>
           <FaTimes />

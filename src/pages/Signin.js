@@ -55,6 +55,7 @@ const MagicLogin = () => {
       navigate("/")
     } catch (err) {
       swal(err.response.data.message, "", "error");
+      setShow(false)
     }
   }
   const handleFailure = (res) => {
@@ -91,6 +92,7 @@ const MagicLogin = () => {
       <Modal show={show} centered>
         <Modal.Body>
           <ModalLoader />
+          <p className="text-center">{t("please_wait")}</p>
         </Modal.Body>
       </Modal>
     </>)
