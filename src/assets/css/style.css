@@ -1178,6 +1178,7 @@ button,input {
   background: rgba(247, 249, 253, 0.8);
   color: #3981F4;
   border: 1px solid rgba(180, 198, 235, 0.15);
+  overflow: hidden;
 } 
 .scripts-details .details-left .share{
   margin-top: 15px;
