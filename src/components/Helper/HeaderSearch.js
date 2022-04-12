@@ -5,17 +5,21 @@ import { useTranslation } from 'react-i18next';
 
 import { useCategoryContext } from '../../context/CategoryContext';
 import search from '../../assets/images/search.png';
+import axios from 'axios';
+import { useAuthContext } from '../../context/AuthContext';
 
 const HeaderSearch = () => {
+  const { API } = useAuthContext()
   const { t } = useTranslation()
   const navigate = useNavigate()
   const { scripts, getAllScripts } = useCategoryContext()
   const [filterdata, setFilterdata] = useState([]);
   const [wordInter, setWordInter] = useState('');
 
-  const handleFilter = (e) => {
+  const handleFilter = async (e) => {
     const searchWord = e.target.value
     setWordInter(searchWord)
+    // const res = await axios.get(`${API}/compare/${searchWord}`)
     const newFilter = scripts.filter((item) => item.title.toLowerCase().includes(searchWord.toLowerCase()))
     if (searchWord) {
       setFilterdata(newFilter)

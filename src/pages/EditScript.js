@@ -105,15 +105,9 @@ const EditScript = () => {
       swal(res.errors[Object.keys(res.errors)[0]][0], "", "error");
     }
   }
-  const handleDeleteScript = async () => {
-    const res = await deleteScript(params.slug)
-    if (res.success) {
-      swal(res.message, "", "success");
-      getAllScripts()
-      navigate("/")
-    } else {
-      swal(res.message, "", "error");
-    }
+  const handleDeleteScript = () => {
+    deleteScript(params.slug)
+    navigate("/")
   }
   const deleteScriptImg = (imgId) => {
     axios.get(`${API}/delete-script-image/${script.id}/${imgId}`)

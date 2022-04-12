@@ -7,40 +7,25 @@ import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
+import { Virtual } from 'swiper';
 
 import Loader from "../components/Common/Loader";
 import ScriptImages from "../components/Dashboard/ScriptImages";
 import { useAuthContext } from "../context/AuthContext";
-import { useCategoryContext } from "../context/CategoryContext";
 import NoDataFound from "./NoDataFound";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import { FaShareAlt } from "react-icons/fa";
 import ShareScript from "../components/Helper/ShareScript";
 import Highlighter from "react-highlight-words";
-function SampleNextArrow(props) {
-  const { className, onClick } = props;
-  return (
-    <button className={className} onClick={onClick}>
-      <BsArrowRight />
-    </button>
-  );
-}
-function SamplePrevArrow(props) {
-  const { className, onClick } = props;
-  return (
-    <button className={className} onClick={onClick} >
-      <BsArrowLeft />
-    </button>
-  );
-}
 
 const Compare = () => {
+  const [page, setPage] = useState(1)
+  const swiperRef = useRef(null);
   const { t } = useTranslation()
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
   const [isLoading, setIsLoading] = useState(true);
-  const { deleteScript, getAllScripts } = useCategoryContext()
   const { API } = useAuthContext()
   const [scripts, setScripts] = useState([])
   const params = useParams();
@@ -55,17 +40,6 @@ const Compare = () => {
   const handleDeletClose = () => setDeletShow(false);
   const handleDeletShow = () => setDeletShow(true);
 
-  const settingsTwo = {
-    dots: false,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    draggable: false,
-    prevArrow: <SamplePrevArrow />,
-    nextArrow: <SampleNextArrow />,
-  };
-
-
   const handleClick = (e, id) => {
     if (localStorage.getItem(id)) {
       e.currentTarget.classList.toggle("blur")
@@ -73,23 +47,38 @@ const Compare = () => {
   }
 
   const handleDeleteScript = async (slug) => {
-    const res = await deleteScript(slug)
-    if (res.success) {
-      swal(res.message, "", "success");
-      getAllScripts()
-    } else {
-      swal(res.message, "", "error");
+    try {
+      const res = await axios.get(`${API}/delete-script/${slug}`)
+      if (res.data.success) {
+        const newScripts = scripts.filter(script => script.slug != slug)
+        setScripts(newScripts)
+        swal(res.message, "", "success");
+      }
+    } catch (err) {
+      swal(err.response.data.message, "", "error");
     }
   }
   const getScript = async () => {
     try {
-      const res = await axios.get(`${API}/compare/${params.keyword}?cat_slug=${params.slug}`)
+      const res = await axios.get(`${API}/compare/page/${params.keyword}?cat_slug=${params.slug}&limit=5&page=1`)
+      setScripts(res.data.data.data)
       console.log(res.data.data)
-      setScripts(res.data.data)
+      console.log(res.data.data)
       setIsLoading(false)
     } catch (err) {
       setIsLoading(false)
     }
+  }
+  const getIndex = async () => {
+    if (scripts.length - 1 == swiperRef.current.swiper.realIndex) {
+      setPage(page + 1)
+      await axios.get(`${API}/compare/page/${params.keyword}?cat_slug=${params.slug}&limit=5&page=${page + 1}`)
+        .then(res => {
+          setScripts([...scripts, ...res.data.data.data])
+          console.log([...scripts, ...res.data.data.data])
+        })
+    }
+    console.log(swiperRef.current.swiper.realIndex)
   }
   useEffect(() => {
     getScript()
@@ -107,7 +96,7 @@ const Compare = () => {
       <Container fluid>
         <Row className="justify-content-center">
           <Col xl={9} className="position-relative">
-            <Swiper navigation={{
+            <Swiper ref={swiperRef} virtual navigation={{
               prevEl: navigationPrevRef.current,
               nextEl: navigationNextRef.current,
             }} onBeforeInit={swiper => {
@@ -122,8 +111,8 @@ const Compare = () => {
                 swiper.navigation.init()
                 swiper.navigation.update()
               })
-            }} modules={[Navigation]} className="banner-slider">
-              {scripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, updated_at, useful_links, views }) => (<SwiperSlide key={id}>
+            }} modules={[Navigation, Virtual]} className="banner-slider">
+              {scripts.map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, updated_at, useful_links, views }) => (<SwiperSlide key={id}>
                 <div className="scripts-details">
                   <Row className="align-items-center">
                     <Col md={8}>
@@ -241,7 +230,7 @@ const Compare = () => {
                 </div>
               </SwiperSlide>))}
             </Swiper>
-            <button className="slick-arrow slick-next" ref={navigationNextRef}  >
+            <button onClick={getIndex} className="slick-arrow slick-next" ref={navigationNextRef}  >
               <BsArrowRight />
             </button>
             <button className="slick-arrow slick-prev" ref={navigationPrevRef} >

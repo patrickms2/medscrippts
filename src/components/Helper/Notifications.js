@@ -8,11 +8,14 @@ import { Dropdown } from "react-bootstrap";
 
 const Notifications = ({ showNotification }) => {
   const { API } = useAuthContext()
+  const [page, setPage] = useState(1)
   const [notifications, setNotifications] = useState([]);
   useEffect(() => {
-    axios.get(`${API}/view-notification?limit=4&page=1`)
-      .then(res => setNotifications(res.data.data.data))
-  }, [])
+    axios.get(`${API}/view-notification?limit=4&page=${page}`)
+      .then(res => {
+        setNotifications([...notifications, ...res.data.data.data])
+      })
+  }, [page])
   return (
     <>
       <Dropdown drop="down">
@@ -24,13 +27,16 @@ const Notifications = ({ showNotification }) => {
         </Dropdown.Toggle>
         <Dropdown.Menu>
           <div className="notification-pannel">
-            {notifications.map(({ title, content, time }, i) => <div key={i} className="single-pannel">
-              <img src={notificationIcon} alt="notification" />
-              <div className="text">
-                <h4>{title} <span>{time}</span></h4>
-                <p className="mb-0">{content}</p>
-              </div>
-            </div>)}
+            <div style={{ height: 280, overflow: 'auto' }}>
+              {notifications.map(({ title, content, time }, i) => <div key={i} className="single-pannel">
+                <img src={notificationIcon} alt="notification" />
+                <div className="text">
+                  <h4>{title} <span>{time}</span></h4>
+                  <p className="mb-0">{content}</p>
+                </div>
+              </div>)}
+            </div>
+            <p className="text-center load-more" onClick={() => setPage(page + 1)}>load more</p>
           </div>
         </Dropdown.Menu>
       </Dropdown>

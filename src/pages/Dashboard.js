@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { FaShareAlt } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
+import { Virtual } from 'swiper';
 
 import { useCategoryContext } from "../context/CategoryContext";
 import ScriptImages from "../components/Dashboard/ScriptImages";
@@ -16,13 +17,14 @@ import NoDataFound from "./NoDataFound";
 import ShareScript from "../components/Helper/ShareScript";
 
 const Dashboard = () => {
+  const swiperRef = useRef(null);
   const navigationPrevRef = useRef(null)
   const navigationNextRef = useRef(null)
   const { t } = useTranslation()
   let navigate = useNavigate();
   const [deleteSlug, setDeleteSlug] = useState("")
   const [shareSlug, setShareSlug] = useState("");
-  const { deleteScript, scripts, getAllScripts, filterdScripts } = useCategoryContext()
+  const { deleteScript, scripts, getAllScripts, filterdScripts, appendScripts, scriptLoader } = useCategoryContext()
   const [shareModal, setShareModal] = useState(false);
 
   const showShareModal = () => setShareModal(true)
@@ -31,14 +33,8 @@ const Dashboard = () => {
   const handleDeletClose = () => setDeletShow(false);
   const handleDeletShow = () => setDeletShow(true);
 
-  const handleDeleteScript = async (slug) => {
-    const res = await deleteScript(slug)
-    if (res.success) {
-      swal(res.message, "", "success");
-      getAllScripts()
-    } else {
-      swal(res.message, "", "error");
-    }
+  const handleDeleteScript = (slug) => {
+    deleteScript(slug)
   }
 
   const handleClick = (e, id) => {
@@ -49,21 +45,22 @@ const Dashboard = () => {
   useEffect(() => {
     getAllScripts()
   }, [])
+  const getIndex = () => {
+    appendScripts(swiperRef.current.swiper.realIndex)
+  }
 
-
-  if (!scripts) {
+  if (scriptLoader) {
     return <Loader />
   }
   if (scripts.length == 0) {
     return <NoDataFound />
   }
-
   return (
     <>
       <Container fluid>
         <Row className="justify-content-center">
           <Col xl={9} className="position-relative">
-            <Swiper lazy={true} navigation={{
+            <Swiper ref={swiperRef} virtual navigation={{
               prevEl: navigationPrevRef.current,
               nextEl: navigationNextRef.current,
             }} onBeforeInit={swiper => {
@@ -78,8 +75,8 @@ const Dashboard = () => {
                 swiper.navigation.init()
                 swiper.navigation.update()
               })
-            }} modules={[Navigation]} loop={true} className="banner-slider" >
-              {filterdScripts.length == 0 ? scripts.slice(0, 20).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, updated_at, useful_links, views }) => (<SwiperSlide key={id}>
+            }} modules={[Navigation, Virtual]} className="banner-slider" >
+              {filterdScripts.length == 0 ? scripts.map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, updated_at, useful_links, views }) => (<SwiperSlide key={id}>
                 <div className="scripts-details">
                   <Row className="align-items-center">
                     <Col md={8}>
@@ -146,7 +143,7 @@ const Dashboard = () => {
                     </Col>
                   </Row>
                 </div>
-              </SwiperSlide>)) : filterdScripts.slice(0, 15).map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
+              </SwiperSlide>)) : filterdScripts.map(({ id, title, images, pathophysiology, epidemiology, symptoms, diagnostics, treatments, slug, created_at, useful_links, views }) => (<SwiperSlide key={id}>
                 <div className="scripts-details">
                   <Row className="align-items-center">
                     <Col md={8}>
@@ -182,7 +179,6 @@ const Dashboard = () => {
                           <div className="link">
                             <a href={`http://${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
                           </div>
-                          {/* <input type="text" defaultValue={useful_links[0].link} /> */}
                         </div>
                         <div className="share">
                           <FaShareAlt onClick={() => {
@@ -215,9 +211,8 @@ const Dashboard = () => {
                   </Row>
                 </div>
               </SwiperSlide>))}
-
             </Swiper>
-            <button className="slick-arrow slick-next" ref={navigationNextRef}  >
+            <button onClick={getIndex} className="slick-arrow slick-next" ref={navigationNextRef}  >
               <BsArrowRight />
             </button>
             <button className="slick-arrow slick-prev" ref={navigationPrevRef} >

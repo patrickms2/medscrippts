@@ -29,8 +29,6 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
       swal(res.message, "", "error")
     }
   }
-
-
   useEffect(() => {
     axios.get(`${API}/export-script`, {
       responseType: 'blob',
@@ -39,8 +37,6 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
         setDataInCSV(URL.createObjectURL(res.data))
       })
   }, []);
-
-
 
   return (
     <Modal className="account-modal" centered show={showAccount} onHide={accountClose}>
@@ -58,7 +54,6 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
           <h2 className="status mb-0">{t("account_status")}</h2>
           <span className="status-title">{isMember ? t("active") : 'trial'}</span>
         </div>
-
       </Modal.Header>
       <Modal.Body>
         <h3 className="my-3">{t("registered_information")}</h3>
@@ -106,24 +101,18 @@ const ChangeAccount = ({ showAccount, accountClose, remainingDays, handleShowCha
               </div>
             </Col>
           </Row>
-
           <div className="changes-btns">
-            {/* <div onClick={passwordShow} className="single-btns">
-              <CgArrowRight className="icon" />
-              <span className="span"> {t("change_password")}</span>
-            </div> */}
             <div className="single-btns">
               <CgArrowRight className="icon" />
               <a href={dataInCSV} download className="span">{t("download_csv")}</a>
             </div>
             {isButtonShow && <div onClick={cancleMemberShip} className=" single-btns">
               <CgArrowRight className="icon" />
-              <span className="span"> Cancel Auto Renewal</span>
+              <span className="span"> {t("cancel_renewal")}</span>
             </div>}
             <div className="text-center single-btns">
               <button type="submit">{t("save_changes")}</button>
             </div>
-
           </div>
         </form>
       </Modal.Body>

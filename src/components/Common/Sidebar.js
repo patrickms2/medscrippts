@@ -1,5 +1,4 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import swal from 'sweetalert';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useTranslation } from "react-i18next";
@@ -138,7 +137,6 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
 
   }, [isPedi, isAdult]);
 
-  // console.log(filterdScripts)
   const options = categories.map(({ name, slug }) => { return { value: slug, label: name } })
   return (
     <>
@@ -154,7 +152,7 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
             <form onSubmit={handleSubmit(onSubmit)} className="select-category">
               <Select options={options} placeholder={t("pick_from_list")} onChange={handleChange} />
               <div>
-                <input className='search-terms' type="text" placeholder={t("search_term")} {...register("keyword")} required autoComplete='off' />
+                <input className='search-terms' type="text" placeholder={t("search_term")} {...register("keyword")} required autoComplete='off' title={t("search_text")} />
               </div>
               <button className='compare-btn'> {t("compare")}</button>
             </form>
@@ -204,7 +202,7 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
         <button><FaChevronRight /></button>
       </div>}
       {showLeftSidebar && <div onClick={() => setShowScriptSidebar(false)} className={`${showScriptSidebar ? "show-sidebar" : ""} ${showLeftSidebar ? "" : "margin-left"} script-sidebar`}>
-        <h3 className='main-title' >available scripts <FaChevronRight className='icon' /> </h3>
+        <h3 className='main-title' >{t("available_script")} <FaChevronRight className='icon' /> </h3>
         <div className="scripts">
 
           {isLoading ? <ModalLoader /> : Array.isArray(scriptByCategory) && scriptByCategory.length == 0 ? <h3 className='missing'>{t("no_data_found")}</h3> : scriptByCategory ? scriptByCategory.map(({ id, title, category, created_at, slug }) => <div key={id} className="script" onClick={() => navigate(`/view-script/${slug}`)}>

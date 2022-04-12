@@ -33,16 +33,9 @@ const ViewScript = () => {
   const showShareModal = () => setShareModal(true)
   const closeShareModal = () => setShareModal(false)
 
-  const handleDeleteScript = async () => {
-
-    const res = await deleteScript(params.slug)
-    if (res.success) {
-      swal(res.message, "", "success");
-      getAllScripts()
-      navigate("/")
-    } else {
-      swal(res.message, "", "error");
-    }
+  const handleDeleteScript = () => {
+    deleteScript(params.slug)
+    navigate("/")
   }
   const handleClick = (e, id) => {
     if (localStorage.getItem(id)) {
