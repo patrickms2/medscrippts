@@ -150,7 +150,7 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
           <div className="categories">
             <button className='btns'> {t('select_categorie')}</button>
             <form onSubmit={handleSubmit(onSubmit)} className="select-category">
-              <Select options={options} placeholder={t("pick_from_list")} onChange={handleChange} />
+              <Select className='react-select-container' classNamePrefix="react-select" options={options} placeholder={t("pick_from_list")} onChange={handleChange} />
               <div>
                 <input className='search-terms' type="text" placeholder={t("search_term")} {...register("keyword")} required autoComplete='off' title={t("search_text")} />
               </div>
@@ -205,13 +205,13 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
         <h3 className='main-title' >{t("available_script")} <FaChevronRight className='icon' /> </h3>
         <div className="scripts">
 
-          {isLoading ? <ModalLoader /> : Array.isArray(scriptByCategory) && scriptByCategory.length == 0 ? <h3 className='missing'>{t("no_data_found")}</h3> : scriptByCategory ? scriptByCategory.map(({ id, title, category, created_at, slug }) => <div key={id} className="script" onClick={() => navigate(`/view-script/${slug}`)}>
+          {isLoading ? <ModalLoader /> : Array.isArray(scriptByCategory) && scriptByCategory.length == 0 ? <h3 className='missing'>{t("no_data_found")}</h3> : scriptByCategory ? scriptByCategory.map(({ id, title, category, updated_at, slug }) => <div key={id} className="script" onClick={() => navigate(`/view-script/${slug}`)}>
             <div className="top">
               <span className="sub">{category}</span>
               <h3 className="title">{title}</h3>
             </div>
             <div className="bottom">
-              <div className="date">{moment.unix(created_at).format("D MMM, Y")}</div>
+              <div className="date">{moment.unix(updated_at).format("D MMM, Y")}</div>
             </div>
           </div>) : <h3 className='missing'>{t("select_a_categorie")}</h3>}
         </div>

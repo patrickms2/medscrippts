@@ -9,6 +9,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import swal from "sweetalert";
 import { Virtual } from 'swiper';
 
+import spinner from '../assets/images/spinner-color.svg';
 import Loader from "../components/Common/Loader";
 import ScriptImages from "../components/Dashboard/ScriptImages";
 import { useAuthContext } from "../context/AuthContext";
@@ -20,6 +21,7 @@ import ShareScript from "../components/Helper/ShareScript";
 import Highlighter from "react-highlight-words";
 
 const Compare = () => {
+  const [loading, setLoading] = useState(false)
   const [page, setPage] = useState(1)
   const swiperRef = useRef(null);
   const { t } = useTranslation()
@@ -62,8 +64,6 @@ const Compare = () => {
     try {
       const res = await axios.get(`${API}/compare/page/${params.keyword}?cat_slug=${params.slug}&limit=5&page=1`)
       setScripts(res.data.data.data)
-      console.log(res.data.data)
-      console.log(res.data.data)
       setIsLoading(false)
     } catch (err) {
       setIsLoading(false)
@@ -71,14 +71,14 @@ const Compare = () => {
   }
   const getIndex = async () => {
     if (scripts.length - 1 == swiperRef.current.swiper.realIndex) {
+      setLoading(true)
       setPage(page + 1)
       await axios.get(`${API}/compare/page/${params.keyword}?cat_slug=${params.slug}&limit=5&page=${page + 1}`)
         .then(res => {
+          setLoading(false)
           setScripts([...scripts, ...res.data.data.data])
-          console.log([...scripts, ...res.data.data.data])
         })
     }
-    console.log(swiperRef.current.swiper.realIndex)
   }
   useEffect(() => {
     getScript()
@@ -230,8 +230,8 @@ const Compare = () => {
                 </div>
               </SwiperSlide>))}
             </Swiper>
-            <button onClick={getIndex} className="slick-arrow slick-next" ref={navigationNextRef}  >
-              <BsArrowRight />
+            <button onClick={getIndex} className="slick-arrow slick-next" ref={navigationNextRef}>
+              {loading ? <img src={spinner} alt="spinner" /> : <BsArrowRight />}
             </button>
             <button className="slick-arrow slick-prev" ref={navigationPrevRef} >
               <BsArrowLeft />

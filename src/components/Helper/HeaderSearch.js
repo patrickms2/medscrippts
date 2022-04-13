@@ -20,9 +20,7 @@ const HeaderSearch = () => {
     if (searchWord) {
       const res = await axios.get(`${API}/search/scripts/${searchWord}?limit=5`)
       setFilterdata(res.data.data.data)
-      console.log(e.target.value)
     } else {
-      console.log('empty')
       setFilterdata([])
     }
   }

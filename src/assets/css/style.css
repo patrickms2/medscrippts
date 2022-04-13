@@ -207,7 +207,7 @@ button,input {
 .select-category .css-1pahdxg-control:hover {
   border-color: #E4E4E4;
 }
-.select-category .css-319lph-ValueContainer {
+.select-category .react-select__value-container  {
   padding: 0;
 }
 .select-category .css-14el2xx-placeholder {

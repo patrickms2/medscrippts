@@ -93,7 +93,7 @@ const ViewScript = () => {
                     <div className="details-links">
                       <h3 className="title">{t("links")}</h3>
                       <div className="link">
-                        <a href={`http://${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
+                        <a href={`${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
                       </div>
                     </div>
                     <div className="share">

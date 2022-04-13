@@ -7,6 +7,7 @@ import { useAuthContext } from "./AuthContext";
 const CategoryContext = React.createContext();
 
 const CategoryProvider = ({ children }) => {
+  const [pagiLoader, setPagiLoader] = useState(false)
   const [scriptLoader, setScriptLoader] = useState(false)
   const { API } = useAuthContext()
   const [page, setPage] = useState(1)
@@ -55,9 +56,11 @@ const CategoryProvider = ({ children }) => {
   }
   const appendScripts = async (num) => {
     if (scripts.length - 1 == num) {
+      setPagiLoader(true)
       setPage(page + 1)
       await axios.get(`${API}/user-scripts?limit=5&page=${page + 1}`)
         .then(res => {
+          setPagiLoader(false)
           setScripts([...scripts, ...res.data.data.data])
         })
     }
@@ -78,7 +81,8 @@ const CategoryProvider = ({ children }) => {
     filterdScripts,
     setFilterdScripts,
     appendScripts,
-    scriptLoader
+    scriptLoader,
+    pagiLoader
   };
   return (
     <CategoryContext.Provider value={value}>

@@ -3,13 +3,13 @@ import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
-import swal from "sweetalert";
 import { useTranslation } from "react-i18next";
 import { FaShareAlt } from "react-icons/fa";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper";
 import { Virtual } from 'swiper';
 
+import spinner from '../assets/images/spinner-color.svg';
 import { useCategoryContext } from "../context/CategoryContext";
 import ScriptImages from "../components/Dashboard/ScriptImages";
 import Loader from "../components/Common/Loader";
@@ -24,7 +24,7 @@ const Dashboard = () => {
   let navigate = useNavigate();
   const [deleteSlug, setDeleteSlug] = useState("")
   const [shareSlug, setShareSlug] = useState("");
-  const { deleteScript, scripts, getAllScripts, filterdScripts, appendScripts, scriptLoader } = useCategoryContext()
+  const { deleteScript, scripts, getAllScripts, filterdScripts, appendScripts, scriptLoader, pagiLoader } = useCategoryContext()
   const [shareModal, setShareModal] = useState(false);
 
   const showShareModal = () => setShareModal(true)
@@ -110,7 +110,7 @@ const Dashboard = () => {
                         <div className="details-links">
                           <h3 className="title">{t("links")}</h3>
                           <div className="link">
-                            <a href={`http://${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
+                            <a href={`${useful_links[0]?.link}`} target="_blank" rel="noopener noreferrer">{useful_links[0]?.link}</a>
                           </div>
                         </div>
                         <div className="share">
@@ -213,7 +213,7 @@ const Dashboard = () => {
               </SwiperSlide>))}
             </Swiper>
             <button onClick={getIndex} className="slick-arrow slick-next" ref={navigationNextRef}  >
-              <BsArrowRight />
+              {pagiLoader ? <img src={spinner} alt="spinner" /> : <BsArrowRight />}
             </button>
             <button className="slick-arrow slick-prev" ref={navigationPrevRef} >
               <BsArrowLeft />
@@ -221,7 +221,6 @@ const Dashboard = () => {
           </Col>
         </Row>
       </Container>
-
       <Modal show={deletShow} onHide={handleDeletClose} centered>
         <Modal.Body className="text-center">
           <p>{t("delete_text")}</p>
