@@ -7,10 +7,12 @@ import { useAuthContext } from "./AuthContext";
 const CategoryContext = React.createContext();
 
 const CategoryProvider = ({ children }) => {
+  const [filterSlug, setFilterSlug] = useState('')
   const [pagiLoader, setPagiLoader] = useState(false)
   const [scriptLoader, setScriptLoader] = useState(false)
   const { API } = useAuthContext()
   const [page, setPage] = useState(1)
+  const [filterPage, setFilterPage] = useState(1)
   const [categories, setCategories] = useState([])
   const [scripts, setScripts] = useState([])
   const [filterdScripts, setFilterdScripts] = useState([]);
@@ -65,6 +67,17 @@ const CategoryProvider = ({ children }) => {
         })
     }
   }
+  const appendFilterScripts = async (num) => {
+    if (filterdScripts.length - 1 == num) {
+      setPagiLoader(true)
+      setFilterPage(page + 1)
+      await axios.get(`${API}/user-scripts?limit=5&page=${page + 1}`)
+        .then(res => {
+          setPagiLoader(false)
+          setFilterdScripts([...filterdScripts, ...res.data.data.data])
+        })
+    }
+  }
   const getAllCategories = async () => {
     const res = await axios.get(`${API}/all-categories`)
     setCategories(res.data.data)
@@ -82,7 +95,9 @@ const CategoryProvider = ({ children }) => {
     setFilterdScripts,
     appendScripts,
     scriptLoader,
-    pagiLoader
+    pagiLoader,
+    appendFilterScripts,
+    setFilterSlug
   };
   return (
     <CategoryContext.Provider value={value}>

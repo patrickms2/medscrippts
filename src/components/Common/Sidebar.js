@@ -19,7 +19,7 @@ import ModalLoader from './ModalLoader';
 const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
   const [isPedi, setisPedi] = useState(false);
   const [isAdult, setIsAdult] = useState(false);
-  const { categories, scripts, setFilterdScripts } = useCategoryContext()
+  const { categories, scripts, setFilterdScripts, setFilterSlug } = useCategoryContext()
   const { API } = useAuthContext()
   const [isLoading, setIsLoading] = useState(false);
   const [scriptByCategory, setScriptByCategory] = useState("");
@@ -122,14 +122,29 @@ const Sidebar = ({ showLeftSidebar, setShowLeftSidebar }) => {
   }
   useEffect(() => {
     if (isPedi && !isAdult) {
-      const pedScripts = scripts.filter(item => Number(item.isPediatrics))
-      setFilterdScripts(pedScripts)
+      axios.get(`${API}/user-scripts?limit=5&page=1&isPediatrics=1`)
+        .then(res => {
+          setFilterdScripts(res.data.data.data)
+          setFilterSlug(`${API}/user-scripts?limit=5&isPediatrics=1`)
+        })
+      // const pedScripts = scripts.filter(item => Number(item.isPediatrics))
+      // setFilterdScripts(pedScripts)
     } else if (isAdult && !isPedi) {
-      const adultScripts = scripts.filter(item => Number(item.isAdult))
-      setFilterdScripts(adultScripts)
+      axios.get(`${API}/user-scripts?limit=5&page=1&isAdult=1`)
+        .then(res => {
+          setFilterdScripts(res.data.data.data)
+          setFilterSlug(`${API}/user-scripts?limit=5&isAdult=1`)
+        })
+      // const adultScripts = scripts.filter(item => Number(item.isAdult))
+      // setFilterdScripts(adultScripts)
     } else if (isAdult && isPedi) {
-      const newScripts = scripts.filter(item => Number(item.isAdult) || Number(item.isPediatrics))
-      setFilterdScripts(newScripts)
+      axios.get(`${API}/user-scripts?limit=5&page=1&isPediatrics=1&isAdult=1`)
+        .then(res => {
+          setFilterdScripts(res.data.data.data)
+          setFilterSlug(`${API}/user-scripts?limit=5&isPediatrics=1&isAdult=1`)
+        })
+      // const newScripts = scripts.filter(item => Number(item.isAdult) || Number(item.isPediatrics))
+      // setFilterdScripts(newScripts)
     } else {
       setFilterdScripts([])
     }
